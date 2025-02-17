@@ -5,13 +5,13 @@ public class Proprietaire {
     private int idProprietaire, id_ville, code_postal;
     private String nom, prenom, adresse, tel, email, mdp, role;
     
-}
+
 // Constructors
 public Proprietaire() {
 }
 
 public Proprietaire(int idProprietaire, int id_ville, int code_postal, String tel, String nom, String prenom, String adresse, String email, String mdp, String role) {
-    this.idProprietaire = (Integer) null;
+    this.idProprietaire = idProprietaire;
     this.id_ville = id_ville;
     this.code_postal = code_postal;
     this.tel = tel;
@@ -25,6 +25,7 @@ public Proprietaire(int idProprietaire, int id_ville, int code_postal, String te
 
 public Proprietaire(int idProprietaire, String nom, String prenom, String adresse, int code_postal, String email, String tel) {
     this.idProprietaire = idProprietaire;
+    this.id_ville = 0;
     this.nom = nom;
     this.prenom = prenom;
     this.adresse = adresse;
@@ -69,11 +70,11 @@ public void setCode_postal(int code_postal) {
     this.code_postal = code_postal;
 }
 
-public int getTel() {
+public String getTel() {
     return tel;
 }
 
-public void setTel(int tel) {
+public void setTel(String tel) {
     this.tel = tel;
 }
 
@@ -123,4 +124,6 @@ public String getRole() {
 
 public void setRole(String role) {
     this.role = role;
+}
+
 }

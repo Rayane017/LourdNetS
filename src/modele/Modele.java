@@ -1,47 +1,115 @@
 package modele;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 import controleur.Proprietaire;
-
 import controleur.User;
-
+import controleur.Ville;
 
 public class Modele {
-	private static Connexion uneConnexion = new Connexion ("localhost", "NeigeSoleil", "root", "");
-	
-	/************************ GESTION DES Users **********************/
-	
-	public static User selectWhereUser(String email, String mdp) {
-		String requete ="select * from user where email ='"+email+"'or 1=1 and mdp ='"+mdp+"' or 1=1;";
-		User unUser = null; 
-	
-				try {
-					uneConnexion.seConnecter();
-					Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
-					ResultSet unResultat = unStat.executeQuery(requete);
-					if(unResultat.next()) {
-						//instanciation du client 
-						unUser = new User(
-						unResultat.getInt("ID_USER"), unResultat.getString("NOM"),
-						unResultat.getString("PRENOM"),unResultat.getString("ROLE"),
-						unResultat.getString ("EMAIL"),
-						unResultat.getString("MDP"),unResultat.getInt("TELEPHONE")
-						);
-			}
-			unStat.close();
-			uneConnexion.seDeConnecter();
-		}
-		catch(SQLException exp) {
-			System.out.println("Erreur d'execution de la requete : " + requete);
-		}
-		return unUser;
-	}
-	
-	/************************ GESTION DES PROPRIETAIRES **********************/
+    /************************* Attributs ****************************/
+    private static Connexion uneConnexion = new Connexion ("localhost:8889", "NeigeSoleil", "root", "root");
+
+    /********************* Gestion des utilisateurs **************************/
+
+    public static void insertUser (User unUser) {
+        String requete = "insert into user values (null, '" + unUser.getNom() + "', '" + unUser.getPrenom() + "', '" + unUser.getAdresse()+ "','"+unUser.getCp()+"''"+ unUser.getEmail() + "', '" + unUser.getMdp() + "')";
+        executerRequete(requete);
+    }
+
+    
+
+    public static ArrayList<User> selectAllUser (){
+        ArrayList<User> lesUsers = new ArrayList<User>();
+        String requete = "select * from user";
+        try{
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet lesResultats = unStat.executeQuery(requete);
+            while (lesResultats.next()){
+                User unUser = new User(lesResultats.getInt("id_user"),0, lesResultats.getString("nom"), lesResultats.getString("prenom"), lesResultats.getString("email"), 0, lesResultats.getString("mdp"), requete, requete, requete);
+                lesUsers.add(unUser);
+            }
+            unStat.close();
+            uneConnexion.seDeConnecter();
+        }
+        catch(SQLException exp){
+            System.out.println("Erreur d'execution de la requete : " + requete);
+        }
+        return lesUsers;
+    }
+
+    public static ArrayList<User> selectLikeUser(String filtre) {
+        ArrayList<User> lesUsers = new ArrayList<User>();
+        String requete = "select * from user where nom like '%" + filtre + "%' or prenom like '%" + filtre + "%' or adresse like '%" + filtre + "%' or code_postal like '%"+filtre+ "%' or telephone like '%"+filtre+"%' or email like '%"+filtre+"%'";
+        try {
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet lesResultats = unStat.executeQuery(requete);
+            while (lesResultats.next()) {
+                User unUser = new User(lesResultats.getInt("id_user"), 0, lesResultats.getString("nom"), lesResultats.getString("prenom"), lesResultats.getString("adresse"), lesResultats.getInt("cp"), lesResultats.getString("email"), lesResultats.getString("mdp"), requete, requete);
+                lesUsers.add(unUser);
+            }
+            unStat.close();
+            uneConnexion.seDeConnecter();
+        }catch (SQLException exp) {
+            System.out.println("Erreur d'execution de la requete : " + requete);
+        }
+        return lesUsers;
+    }
+
+    public static User selectWhereUser (String email, String mdp){
+        String requete = "select * from User where email ='"+email+"' and mdp ='"+mdp+"';";
+        User unUser = null;
+        try{
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet unResultat = unStat.executeQuery(requete);
+            if (unResultat.next()){
+                unUser = new User(
+                    unResultat.getInt("id_user"),
+                    unResultat.getInt("id_ville"),
+                    unResultat.getString("nom"),
+                    unResultat.getString("prenom"),
+                    unResultat.getString("adresse"),
+                    unResultat.getInt("code_postal"),
+                    unResultat.getString("telephone"),
+                    unResultat.getString("email"),
+                    unResultat.getString("mdp"),
+                    unResultat.getString("role")
+                );
+            }
+            unStat.close();
+            uneConnexion.seDeConnecter();
+        }catch(SQLException exp){
+            System.out.println("Erreur d'execution de la requete : "+ requete);
+        }
+        return unUser;
+    }
+    /********************* Gestion des villes **************************/
+
+    public static ArrayList<Ville> selectAllVilles (){
+        ArrayList<Ville> lesVilles = new ArrayList<Ville>();
+        String requete = "select * from VILLE;";
+        try{
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet lesResultats = unStat.executeQuery(requete);
+            while (lesResultats.next()) {
+                Ville uneVille = new Ville(lesResultats.getInt("Id Ville"), lesResultats.getString("Nom de la ville"));
+                lesVilles.add(uneVille);
+            }
+            unStat.close();
+            uneConnexion.seDeConnecter();
+        }
+        catch(SQLException exp){
+            System.out.println("Erreur d'execution de la requete : " + requete);
+        }
+        return lesVilles;
+    }
+
+    /************************ GESTION DES PROPRIETAIRES **********************/
 	
 	//Faut creer une procédure d'insertion dans laquelle on appelle un procédure qui genere un mot de passe random pour l'insérer en tant que mdp puis retourner ce mdp pour l'utiliser dans un api de mail pour envoyer le mdp au propriétaire
 	public static void insertProprietaire(Proprietaire unProprietaire) {
@@ -123,8 +191,10 @@ public class Modele {
 	}
 
 
-	/************************** Autres méthodes *******************/
-	public static void executerRequete (String requete) {
+
+    /********************* Autres méthodes **************************/
+
+    public static void executerRequete (String requete) {
 		try {
 			uneConnexion.seConnecter();
 			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
@@ -136,33 +206,29 @@ public class Modele {
 			System.out.println("Erreur d'execution de la requete : " + requete);
 		}
 	}
+
+    public static int count (String table) {
+		int nb = 0;
+		String requete = "select count(*) as nb from "+table+";";
+		try {
+			uneConnexion.seConnecter();
+			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
+			ResultSet unResultat = unStat.executeQuery(requete); 
+			if (unResultat.next()) {
+				nb = unResultat.getInt("nb");
+			}
+			unStat.close();
+			uneConnexion.seDeConnecter();
+		}
+		catch(SQLException exp) {
+			System.out.println("Erreur d'execution de la requete : " + requete);
+		}
+
+		return nb;
+	}
+
+
+
+
+    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

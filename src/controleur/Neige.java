@@ -1,4 +1,7 @@
-package controleur; 
+package controleur;
+
+import vue.VueConnexion;
+import vue.VueGenerale;
 
 public class Neige {
 

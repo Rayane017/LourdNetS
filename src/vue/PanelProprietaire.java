@@ -237,7 +237,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 				Controleur.updateProprietaire(unProprietaire);
 				//actualiser l'afffichage 
 				this.tableauProprietaires.setDonnees(this.obtenirDonnees(""));
-				PanelContrat.remplirIDProprietaire();//lorsque le panelcontrat sera fait il faudra recharger les id proprietaires apres chaque insert ou update 
+				PanelContrats.remplirIDProprietaire();//lorsque le panelcontrat sera fait il faudra recharger les id proprietaires apres chaque insert ou update 
 				
 				// message de confirmation 
 				JOptionPane.showMessageDialog(this, "Modification réussie du proprietaire.", 
