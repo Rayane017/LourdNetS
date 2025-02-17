@@ -5,7 +5,7 @@ public class Proprietaire {
     private int idProprietaire, id_ville, code_postal;
     private String nom, prenom, adresse, tel, email, mdp, role;
     
-}
+
 // Constructors
 public Proprietaire() {
 }
@@ -123,4 +123,6 @@ public String getRole() {
 
 public void setRole(String role) {
     this.role = role;
+}
+
 }
