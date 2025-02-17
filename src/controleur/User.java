@@ -1,103 +1,125 @@
 package controleur;
 
+
+
+
 public class User {
-	private int iduser,idville,cp,telephone ; 
-	private String nom, prenom, Adresse, email, mdp;
-	
-	// Constructor with all fields
-	public User(int iduser, int idville, int cp, int telephone, String nom, String prenom, String Adresse, String email, String mdp) {
-		this.iduser = iduser;
-		this.idville = idville;
-		this.cp = cp;
-		this.telephone = telephone;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.Adresse = Adresse;
-		this.email = email;
-		this.mdp = mdp;
-	}
+    
+    private int id_user, id_ville, cp;
+    private String nom, prenom, adresse, ville, email, telephone, mdp, role;
+    
+        public User(int id_user, int id_ville, String nom, String prenom, String adresse, int cp, String telephone, String email, String mdp, String role) {
+            this.id_user = id_user;
+            this.id_ville = id_ville;
+            this.cp = cp;
+            this.nom = nom;
+            this.prenom = prenom;
+            this.adresse = adresse;
+            this.email = email;
+            this.telephone = telephone;
+            this.mdp = mdp;
+            this.role = role;
+        }
 
-	// Constructeur connexion 
-	public User(int ID_USER, String NOM, String PRENOM, String ROLE, String EMAIL, String MDP, int TELEPHONE) {
-		this.iduser = ID_USER;
-		this.nom = NOM;
-		this.prenom = PRENOM;
-		this.email = EMAIL;
-		this.mdp = MDP;
-		this.telephone = TELEPHONE;
-	}
+        public User (int id_ville, String nom, String prenom, String adresse, String ville, int cp, String telephone, String email, String mdp, String role) {
+            this.id_user = 0;
+            this.id_ville = id_ville;
+            this.cp = cp;
+            this.nom = nom;
+            this.prenom = prenom;
+            this.adresse = adresse;
+            this.email = email;
+            this.telephone = telephone;
+            this.mdp = mdp;
+            this.role = role;
+            this.ville = ville;
+        }
 
-	// Getters and Setters
-	public int getIduser() {
-		return iduser;
-	}
+    public int getId_user() {
+        return id_user;
+    }
 
-	public void setIduser(int iduser) {
-		this.iduser = iduser;
-	}
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
 
-	public int getIdville() {
-		return idville;
-	}
+    public int getCp() {
+        return cp;
+    }
 
-	public void setIdville(int idville) {
-		this.idville = idville;
-	}
+    public void setCp(int cp) {
+        this.cp = cp;
+    }
 
-	public int getCp() {
-		return cp;
-	}
+    public String getNom() {
+        return nom;
+    }
 
-	public void setCp(int cp) {
-		this.cp = cp;
-	}
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 
-	public int getTelephone() {
-		return telephone;
-	}
+    public String getPrenom() {
+        return prenom;
+    }
 
-	public void setTelephone(int telephone) {
-		this.telephone = telephone;
-	}
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
 
-	public String getNom() {
-		return nom;
-	}
+    public String getAdresse() {
+        return adresse;
+    }
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
 
-	public String getPrenom() {
-		return prenom;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getAdresse() {
-		return Adresse;
-	}
+    public String getTelephone() {
+        return telephone;
+    }
 
-	public void setAdresse(String Adresse) {
-		this.Adresse = Adresse;
-	}
+    public void setTelphone(String telephone) {
+        this.telephone = telephone;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setIdVille(int id_ville) {
+        this.id_ville = id_ville;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public int getIdVille() {
+        return id_ville;
+    }
 
-	public String getMdp() {
-		return mdp;
-	}
+    public String getMdp() {
+        return mdp;
+    }
 
-	public void setMdp(String mdp) {
-		this.mdp = mdp;
-	}
-	
+    public void setMdp(String mdp) {
+        this.mdp = mdp;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
 }

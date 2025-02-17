@@ -25,6 +25,7 @@ public Proprietaire(int idProprietaire, int id_ville, int code_postal, String te
 
 public Proprietaire(int idProprietaire, String nom, String prenom, String adresse, int code_postal, String email, String tel) {
     this.idProprietaire = idProprietaire;
+    this.id_ville = 0;
     this.nom = nom;
     this.prenom = prenom;
     this.adresse = adresse;
@@ -69,11 +70,11 @@ public void setCode_postal(int code_postal) {
     this.code_postal = code_postal;
 }
 
-public int getTel() {
+public String getTel() {
     return tel;
 }
 
-public void setTel(int tel) {
+public void setTel(String tel) {
     this.tel = tel;
 }
 

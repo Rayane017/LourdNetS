@@ -237,7 +237,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 				Controleur.updateProprietaire(unProprietaire);
 				//actualiser l'afffichage 
 				this.tableauProprietaires.setDonnees(this.obtenirDonnees(""));
-				PanelContrat.remplirIDProprietaire();//lorsque le panelcontrat sera fait il faudra recharger les id proprietaires apres chaque insert ou update 
+				PanelContrats.remplirIDProprietaire();//lorsque le panelcontrat sera fait il faudra recharger les id proprietaires apres chaque insert ou update 
 				
 				// message de confirmation 
 				JOptionPane.showMessageDialog(this, "Modification réussie du proprietaire.", 
@@ -261,7 +261,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 			//on actualise l'affichage 
 			this.tableauProprietaires.setDonnees(this.obtenirDonnees(""));
 			this.lbNBProprietaires.setText("Nombre de proprietaires : " + this.tableauProprietaires.getRowCount());
-			PanelContrat.remplirIDProprietaire();
+			PanelContrats.remplirIDProprietaire();
 			
 			// confirmation de la suppression réussie 
 			JOptionPane.showMessageDialog(this, "Suppression réussie du proprietaire.", 
@@ -302,7 +302,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 			
 			//Actualiser l'affichage du tableau proprietaires 
 			this.tableauProprietaires.setDonnees(this.obtenirDonnees(""));
-			PanelContrat.remplirIDProprietaire();
+			PanelContrats.remplirIDProprietaire();
 			
 		}else {
 			JOptionPane.showMessageDialog(this, "Veuillez remplir les champs.", 
@@ -329,6 +329,11 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void actualiser() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'actualiser'");
 	}
 }
 
