@@ -11,7 +11,7 @@ public Proprietaire() {
 }
 
 public Proprietaire(int idProprietaire, int id_ville, int code_postal, String tel, String nom, String prenom, String adresse, String email, String mdp, String role) {
-    this.idProprietaire = idProprietaire;
+    this.idProprietaire = (Integer) null;
     this.id_ville = id_ville;
     this.code_postal = code_postal;
     this.tel = tel;
