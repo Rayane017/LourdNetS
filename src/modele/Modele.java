@@ -176,7 +176,7 @@ public class Modele {
 	}
 
 	public static void updateProprietaire(Proprietaire unProprietaire) {
-		String requete ="update proprietaire set nom = '" + unProprietaire.getNom() 
+		String requete ="update proprietaire set id_ville ="+unProprietaire.getId_ville() +", nom = '" + unProprietaire.getNom() 
 		+ "', prenom ='"+unProprietaire.getPrenom() + "', adresse='" + unProprietaire.getAdresse()
 		+ "', code_postal='" + unProprietaire.getCode_postal()
 		+ "', email ='"+unProprietaire.getEmail() + "', telephone='" + unProprietaire.getTel()
