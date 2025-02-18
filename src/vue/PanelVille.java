@@ -201,6 +201,7 @@ public class PanelVille extends PanelPrincipal implements ActionListener, KeyLis
 				//actualiser l'afffichage 
 				this.tableauVilles.setDonnees(this.obtenirDonnees(""));
 				PanelProprietaire.remplirIdVille();
+				PanelUser.remplirIdVille();
 				//lorsque le panelcontrat sera fait il faudra recharger les id villes apres chaque insert ou update 
 				
 				// message de confirmation 
@@ -226,6 +227,7 @@ public class PanelVille extends PanelPrincipal implements ActionListener, KeyLis
 			this.tableauVilles.setDonnees(this.obtenirDonnees(""));
 			this.lbNBVilles.setText("Nombre de villes : " + this.tableauVilles.getRowCount());
 			PanelProprietaire.remplirIdVille();
+			PanelUser.remplirIdVille();
 			
 			// confirmation de la suppression réussie 
 			JOptionPane.showMessageDialog(this, "Suppression réussie du ville.", 
@@ -258,6 +260,7 @@ public class PanelVille extends PanelPrincipal implements ActionListener, KeyLis
 			//Actualiser l'affichage du tableau villes 
 			this.tableauVilles.setDonnees(this.obtenirDonnees(""));
 			PanelProprietaire.remplirIdVille();
+			PanelUser.remplirIdVille();
 			
 		}else {
 			JOptionPane.showMessageDialog(this, "Veuillez remplir les champs.", 
