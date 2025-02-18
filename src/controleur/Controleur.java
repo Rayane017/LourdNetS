@@ -22,7 +22,10 @@ public class Controleur {
 		return Modele.count(table);
 	}
 
-
+	public static String getSaliere() {
+		return Modele.getSaliere();
+	}
+	
 	/************************** Gestion des utilisateurs ************************/
     public static void insertUser (User unUser) {
 
@@ -48,8 +51,24 @@ public class Controleur {
 
 	/************************** Gestion des Villes ************************/
 
+	public static void insertVille(Ville uneVille) {
+		Modele.insertVille(uneVille);
+	}
+
 	public static ArrayList<Ville> selectAllVilles (){
 		return Modele.selectAllVilles();
+	}
+
+	public static ArrayList<Ville> selectLikeVilles (String filtre){
+		return Modele.selectLikeVilles(filtre);
+	}
+
+	public static void updateVille(Ville uneVille) {
+		Modele.updateVille(uneVille);
+	}
+
+	public static void deleteVille (int idVille) {
+		Modele.deleteVille(idVille);
 	}
 
 	/************************ GESTION DES PROPRIETAIRES **********************/
@@ -74,7 +93,5 @@ public class Controleur {
 			Modele.deleteProprietaire(idProprietaire);
 		}
 	
-		public static String getSaliere() {
-			return Modele.getSaliere();
-		}
+		
 }

@@ -4,15 +4,8 @@ public class Ville {
     private int id_ville;
     private String nom;
 
-    public Ville(int id_ville, String nom) {
-
-        this.id_ville = id_ville;
-        this.nom=nom;
-    }
-
-    public Ville (String nom) {
-        this.id_ville = 0;
-        this.nom = nom;
+    public Ville(){
+        
     }
 
     public int getId_ville() {

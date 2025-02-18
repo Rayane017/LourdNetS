@@ -91,6 +91,13 @@ public class Modele {
     }
     /********************* Gestion des villes **************************/
 
+	public static void insertVille(Ville uneVille) {
+		String requete = "insert into ville values (null, "+uneVille.getId_ville()+",'"+uneVille.getNom()+";";
+		
+		executerRequete (requete); 
+	}
+
+
     public static ArrayList<Ville> selectAllVilles (){
         ArrayList<Ville> lesVilles = new ArrayList<Ville>();
         String requete = "select * from VILLE;";
@@ -99,7 +106,9 @@ public class Modele {
             Statement unStat = uneConnexion.getMaConnexion().createStatement();
             ResultSet lesResultats = unStat.executeQuery(requete);
             while (lesResultats.next()) {
-                Ville uneVille = new Ville(lesResultats.getInt("ID_VILLE"), lesResultats.getString("NOM"));
+                Ville uneVille = new Ville();
+				uneVille.setId_ville(lesResultats.getInt("ID_VILLE")); 
+				uneVille.setNom(lesResultats.getString("NOM"));
                 lesVilles.add(uneVille);
             }
             unStat.close();
@@ -110,6 +119,41 @@ public class Modele {
         }
         return lesVilles;
     }
+
+	public static ArrayList<Ville> selectLikeVilles (String filtre){
+		ArrayList<Ville> lesVilles = new ArrayList<Ville>(); 
+		String requete ="select * from ville where nom like '%"+filtre
+				+"%' or id_ville like '%" + filtre + "%' ;";
+		try {
+			uneConnexion.seConnecter();
+			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
+			ResultSet lesResultats = unStat.executeQuery(requete);
+			while(lesResultats.next()) {
+				//instanciation d'un ville 
+				Ville uneVille = new Ville(); 
+				uneVille.setId_ville( lesResultats.getInt("ID_VILLE")); uneVille.setNom(lesResultats.getString("NOM"));
+				//on ajoute le ville dans l'ArrayList
+				lesVilles.add(uneVille);
+			}
+			unStat.close();
+			uneConnexion.seDeConnecter();
+		}
+		catch(SQLException exp) {
+			System.out.println("Erreur d'execution de la requete : " + requete);
+		}
+		return lesVilles; 
+	}
+
+	public static void updateVille(Ville uneVille) {
+		String requete ="update ville set nom = '" + uneVille.getNom()+"' where  id_ville = "+uneVille.getId_ville()+";";
+		
+		executerRequete(requete);
+	}
+
+	public static void deleteVille (int idVille) {
+		String requete = "delete from ville where id_ville = "+idVille+";";
+		executerRequete(requete);
+	}
 
     /************************ GESTION DES PROPRIETAIRES **********************/
 	
