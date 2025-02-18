@@ -27,27 +27,32 @@ public class Controleur {
 	}
 	
 	/************************** Gestion des utilisateurs ************************/
-    public static void insertUser (User unUser) {
-
-		Controleur.insertUser(unUser);
-	}
-
-	public static ArrayList<User> selectAllUser() {
-		return Modele.selectAllUser();
-	
-	}
-
-    public static ArrayList<User> selectLikeUser(String filtre) {
-		return Modele.selectLikeUser(filtre);
-       
-    }
-
-	
-
-    public static User selectWhereUser(String email, String mdp) {
+  
+	public static User selectWhereUser(String email, String mdp) {
 		return Modele.selectWhereUser(email, mdp);
 
     }
+
+	public static void insertUser(User unUser) {
+		Modele.insertUser(unUser);
+	}
+
+	public static ArrayList<User> selectAllUsers (){
+		return Modele.selectAllUsers();
+	}
+
+	public static ArrayList<User> selectLikeUsers (String filtre){
+		return Modele.selectLikeUsers(filtre);
+	}
+
+	public static void updateUser(User unUser) {
+		Modele.updateUser(unUser);
+	}
+
+	public static void deleteUser (int idUser) {
+		Modele.deleteUser(idUser);
+	}
+	
 
 	/************************** Gestion des Villes ************************/
 

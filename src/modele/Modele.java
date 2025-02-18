@@ -15,51 +15,6 @@ public class Modele {
 
     /********************* Gestion des utilisateurs **************************/
 
-    public static void insertUser (User unUser) {
-        String requete = "insert into user values (null, '" + unUser.getNom() + "', '" + unUser.getPrenom() + "', '" + unUser.getAdresse()+ "','"+unUser.getCp()+"''"+ unUser.getEmail() + "', '" + unUser.getMdp() + "')";
-        executerRequete(requete);
-    }
-
-    
-
-    public static ArrayList<User> selectAllUser (){
-        ArrayList<User> lesUsers = new ArrayList<User>();
-        String requete = "select * from user";
-        try{
-            uneConnexion.seConnecter();
-            Statement unStat = uneConnexion.getMaConnexion().createStatement();
-            ResultSet lesResultats = unStat.executeQuery(requete);
-            while (lesResultats.next()){
-                User unUser = new User(lesResultats.getInt("id_user"),0, lesResultats.getString("nom"), lesResultats.getString("prenom"), lesResultats.getString("email"), 0, lesResultats.getString("mdp"), requete, requete, requete);
-                lesUsers.add(unUser);
-            }
-            unStat.close();
-            uneConnexion.seDeConnecter();
-        }
-        catch(SQLException exp){
-            System.out.println("Erreur d'execution de la requete : " + requete);
-        }
-        return lesUsers;
-    }
-
-    public static ArrayList<User> selectLikeUser(String filtre) {
-        ArrayList<User> lesUsers = new ArrayList<User>();
-        String requete = "select * from user where nom like '%" + filtre + "%' or prenom like '%" + filtre + "%' or adresse like '%" + filtre + "%' or code_postal like '%"+filtre+ "%' or telephone like '%"+filtre+"%' or email like '%"+filtre+"%'";
-        try {
-            uneConnexion.seConnecter();
-            Statement unStat = uneConnexion.getMaConnexion().createStatement();
-            ResultSet lesResultats = unStat.executeQuery(requete);
-            while (lesResultats.next()) {
-                User unUser = new User(lesResultats.getInt("id_user"), 0, lesResultats.getString("nom"), lesResultats.getString("prenom"), lesResultats.getString("adresse"), lesResultats.getInt("cp"), lesResultats.getString("email"), lesResultats.getString("mdp"), requete, requete);
-                lesUsers.add(unUser);
-            }
-            unStat.close();
-            uneConnexion.seDeConnecter();
-        }catch (SQLException exp) {
-            System.out.println("Erreur d'execution de la requete : " + requete);
-        }
-        return lesUsers;
-    }
 
     public static User selectWhereUser (String email, String mdp){
         String requete = "select * from User where email ='"+email+"' and mdp ='"+mdp+"';";
@@ -69,18 +24,14 @@ public class Modele {
             Statement unStat = uneConnexion.getMaConnexion().createStatement();
             ResultSet unResultat = unStat.executeQuery(requete);
             if (unResultat.next()){
-                unUser = new User(
-                    unResultat.getInt("id_user"),
-                    unResultat.getInt("id_ville"),
-                    unResultat.getString("nom"),
-                    unResultat.getString("prenom"),
-                    unResultat.getString("adresse"),
-                    unResultat.getInt("code_postal"),
-                    unResultat.getString("telephone"),
-                    unResultat.getString("email"),
-                    unResultat.getString("mdp"),
-                    unResultat.getString("role")
-                );
+                unUser = new User();
+				unUser.setId_user(unResultat.getInt("id_user"));
+				unUser.setNom(unResultat.getString("nom"));
+				unUser.setPrenom(unResultat.getString("prenom"));
+				unUser.setAdresse(unResultat.getString("adresse"));
+				unUser.setCp(unResultat.getInt("code_postal"));
+				unUser.setEmail(unResultat.getString("email"));
+				unUser.setTelephone(unResultat.getString("telephone"));
             }
             unStat.close();
             uneConnexion.seDeConnecter();
@@ -89,6 +40,86 @@ public class Modele {
         }
         return unUser;
     }
+
+	public static void insertUser(User unUser) {
+		String requete = "insert into User values (null, "+unUser.getId_ville()+",'"+unUser.getNom()
+		+ "','" + unUser.getPrenom() + "','" + unUser.getAdresse() + "','" + unUser.getCp() + "','" + unUser.getTelephone()
+		+ "','" + unUser.getEmail()+"','1234',current_timestamp(),'Admin');";
+		
+		executerRequete (requete); 
+	}
+
+	public static ArrayList<User> selectAllUsers (){
+		ArrayList<User> lesUsers = new ArrayList<User>(); 
+		String requete ="select u.*, v.nom ville from User u join ville v on u.id_ville=v.id_ville;";
+		try {
+			uneConnexion.seConnecter();
+			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
+			ResultSet lesResultats = unStat.executeQuery(requete);
+			while(lesResultats.next()) {
+				//instanciation d'un user 
+				User unUser = new User(); 
+						unUser.setId_user( lesResultats.getInt("ID_USER")); unUser.setNom(lesResultats.getString("NOM"));
+						unUser.setPrenom(lesResultats.getString("PRENOM"));unUser.setAdresse(lesResultats.getString("ADRESSE"));unUser.setVille(lesResultats.getString("ville"));unUser.setCp(lesResultats.getInt("CODE_POSTAL"));
+						unUser.setEmail(lesResultats.getString("EMAIL"));unUser.setTelephone(lesResultats.getString("TELEPHONE"));
+						unUser.setRole(lesResultats.getString("ROLE"));
+				//on ajoute le user dans l'ArrayList
+				lesUsers.add(unUser);
+			}
+			unStat.close();
+			uneConnexion.seDeConnecter();
+		}
+		catch(SQLException exp) {
+			System.out.println("Erreur d'execution de la requete : " + requete);
+		}
+		return lesUsers; 
+	}
+
+	public static ArrayList<User> selectLikeUsers (String filtre){
+		ArrayList<User> lesUsers = new ArrayList<User>(); 
+		String requete ="select u.*, v.nom as ville from `User` u join ville v on u.id_ville=v.id_ville where u.nom like '%"+filtre
+				+"%' or u.prenom like '%" + filtre + "%' or u.adresse like '%"
+				+ filtre + "%' or v.nom like '%" + filtre + "%' or u.email like '%" + filtre + "%' or u.telephone like '%"
+				+ filtre + "%' or u.role like '%"+filtre+"%'; ";
+		try {
+			uneConnexion.seConnecter();
+			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
+			ResultSet lesResultats = unStat.executeQuery(requete);
+			while(lesResultats.next()) {
+				//instanciation d'un user 
+				User unUser = new User(); 
+				unUser.setId_user( lesResultats.getInt("ID_USER")); unUser.setNom(lesResultats.getString("NOM"));
+				unUser.setPrenom(lesResultats.getString("PRENOM"));unUser.setAdresse(lesResultats.getString("ADRESSE"));unUser.setVille(lesResultats.getString("ville"));unUser.setCp(lesResultats.getInt("CODE_POSTAL"));
+				unUser.setEmail(lesResultats.getString("EMAIL"));unUser.setTelephone(lesResultats.getString("TELEPHONE"));
+				unUser.setRole(lesResultats.getString("ROLE"));
+				//on ajoute le user dans l'ArrayList
+				lesUsers.add(unUser);
+			}
+			unStat.close();
+			uneConnexion.seDeConnecter();
+		}
+		catch(SQLException exp) {
+			exp.printStackTrace();
+			System.out.println("Erreur d'execution de la requete : " + requete);
+		}
+		return lesUsers; 
+	}
+
+	public static void updateUser(User unUser) {
+		String requete ="update User set id_ville ="+unUser.getId_ville() +", nom = '" + unUser.getNom() 
+		+ "', prenom ='"+unUser.getPrenom() + "', adresse='" + unUser.getAdresse()
+		+ "', code_postal='" + unUser.getCp()
+		+ "', email ='"+unUser.getEmail() + "', telephone='" + unUser.getTelephone()
+		+ "'  where  id_user = "+unUser.getId_user()+";";
+		
+		executerRequete(requete);
+	}
+
+	public static void deleteUser (int idUser) {
+		String requete = "delete from User where id_user = "+idUser+";";
+		executerRequete(requete);
+	}
+
     /********************* Gestion des villes **************************/
 
 	public static void insertVille(Ville uneVille) {
@@ -247,6 +278,7 @@ public class Modele {
 			uneConnexion.seDeConnecter();
 		}
 		catch(SQLException exp) {
+			exp.printStackTrace();
 			System.out.println("Erreur d'execution de la requete : " + requete);
 		}
 	}
