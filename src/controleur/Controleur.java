@@ -48,7 +48,7 @@ public class Controleur {
 
 	/************************** Gestion des Villes ************************/
 
-	public static ArrayList<Ville> selectAllVille() {
+	public static ArrayList<Ville> selectAllVilles (){
 		return Modele.selectAllVilles();
 	}
 
@@ -74,5 +74,7 @@ public class Controleur {
 			Modele.deleteProprietaire(idProprietaire);
 		}
 	
-
+		public static String getSaliere() {
+			return Modele.getSaliere();
+		}
 }

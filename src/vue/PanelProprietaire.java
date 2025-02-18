@@ -9,9 +9,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,6 +24,7 @@ import javax.swing.JTextField;
 import controleur.Proprietaire;
 import controleur.Controleur;
 import controleur.Tableau;
+import controleur.Ville;
 
 
 public class PanelProprietaire extends PanelPrincipal implements ActionListener, KeyListener
@@ -34,6 +37,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
     private JTextField txtEmail = new JTextField();
     private JTextField txtTel = new JTextField();
     private JTextField txtCodePostal = new JTextField();
+	private static JComboBox<String> txtIdVille = new JComboBox<String>();
     
     private JButton btAnnuler = new JButton("Annuler"); 
     private JButton btValider = new JButton("Valider"); 
@@ -56,7 +60,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
         //Placement du panel formulaire 
         this.panelForm.setBackground(Color.cyan);
         this.panelForm.setBounds(30, 100, 300, 200);
-        this.panelForm.setLayout(new GridLayout(7,2));
+        this.panelForm.setLayout(new GridLayout(8,2));
         this.panelForm.add(new JLabel("Nom Proprietaire :")); 
         this.panelForm.add(this.txtNom); 
         
@@ -66,6 +70,9 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
         this.panelForm.add(new JLabel("Adresse postale :")); 
         this.panelForm.add(this.txtAdresse);
 
+		this.panelForm.add(new JLabel("Ville :"));
+		this.panelForm.add(txtIdVille);
+
         this.panelForm.add(new JLabel("Code postale :")); 
         this.panelForm.add(this.txtCodePostal);
 		
@@ -74,11 +81,17 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 		
 		this.panelForm.add(new JLabel("Téléphone Proprietaire :")); 
 		this.panelForm.add(this.txtTel);
+
+		
 		
 		this.panelForm.add(this.btAnnuler); 
 		this.panelForm.add(this.btValider); 
 		
 		this.add(this.panelForm);
+
+		//remplir la combobox des villes
+		remplirIdVille();
+
 		
 		//rendre les boutons ecoutables 
 		this.btAnnuler.addActionListener(this);
@@ -87,12 +100,15 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 		//rendre les champs ecoutables 
 		this.txtNom.addKeyListener(this);
 		this.txtPrenom.addKeyListener(this);
-		this.txtEmail.addKeyListener(this);
 		this.txtAdresse.addKeyListener(this);
+		txtIdVille.addKeyListener(this);
+		this.txtCodePostal.addKeyListener(this);
+		this.txtEmail.addKeyListener(this);
 		this.txtTel.addKeyListener(this);
+
 		
 		//installation de la JTable 
-		String entetes[] = {"Id Proprietaire", "Nom", "Prénom", "Adresse","Code Postale", "Email", "Téléphone"};
+		String entetes[] = {"Id Proprietaire", "Nom", "Prénom", "Adresse", "Ville", "Code Postale", "Email", "Téléphone"};
 		this.tableauProprietaires = new Tableau (this.obtenirDonnees(""), entetes); 
 		this.tableProprietaires = new JTable(this.tableauProprietaires);
 		JScrollPane uneScroll = new JScrollPane(this.tableProprietaires);
@@ -148,9 +164,10 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 					txtNom.setText(tableauProprietaires.getValueAt(numLigne, 1).toString());
 					txtPrenom.setText(tableauProprietaires.getValueAt(numLigne, 2).toString());
 					txtAdresse.setText(tableauProprietaires.getValueAt(numLigne, 3).toString());
-                    txtCodePostal.setText(tableauProprietaires.getValueAt(numLigne, 4).toString());
-					txtEmail.setText(tableauProprietaires.getValueAt(numLigne, 5).toString());
-					txtTel.setText(tableauProprietaires.getValueAt(numLigne, 6).toString());
+					txtIdVille.setSelectedItem(tableauProprietaires.getValueAt(numLigne, 4).toString());
+                    txtCodePostal.setText(tableauProprietaires.getValueAt(numLigne, 5).toString());
+					txtEmail.setText(tableauProprietaires.getValueAt(numLigne, 6).toString());
+					txtTel.setText(tableauProprietaires.getValueAt(numLigne, 7).toString());
 					
 					btSupprimer.setVisible(true);
 					btValider.setText("Modifier");
@@ -159,6 +176,17 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 		});
 		
 	}
+
+	public static void remplirIdVille() {
+		txtIdVille.removeAllItems();
+		ArrayList<Ville> lesVilles = Controleur.selectAllVilles();
+		for (Ville uneVille : lesVilles) {
+			txtIdVille.addItem(uneVille.getId_ville() + " - " + uneVille.getNom());
+		}
+	}
+
+
+
 	public Object [][] obtenirDonnees(String filtre)
 	{
 		//convertir une ArrayList d'objets de proprietaires en matrice d'elements 
@@ -168,16 +196,17 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 		}else {
 			lesProprietaires = Controleur.selectLikeProprietaires(filtre);
 		}
-		Object matrice[][] = new Object[lesProprietaires.size()][7];
+		Object matrice[][] = new Object[lesProprietaires.size()][8];
 		int i = 0; 
 		for (Proprietaire unProprietaire : lesProprietaires) {
 			matrice[i][0] = unProprietaire.getIdProprietaire(); 
 			matrice[i][1] = unProprietaire.getNom(); 
 			matrice[i][2] = unProprietaire.getPrenom(); 
 			matrice[i][3] = unProprietaire.getAdresse(); 
-            matrice[i][4] = unProprietaire.getCode_postal();
-			matrice[i][5] = unProprietaire.getEmail(); 
-			matrice[i][6] = unProprietaire.getTel(); 
+			matrice[i][4] = unProprietaire.getId_ville();
+            matrice[i][5] = unProprietaire.getCode_postal();
+			matrice[i][6] = unProprietaire.getEmail(); 
+			matrice[i][7] = unProprietaire.getTel(); 
 			i++;
 		}
 		return matrice ; 
@@ -187,6 +216,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 		this.txtNom.setText("");
 		this.txtPrenom.setText("");
 		this.txtAdresse.setText("");
+		txtIdVille.setSelectedIndex(-1);
         this.txtCodePostal.setText("");
 		this.txtEmail.setText("");
 		this.txtTel.setText("");
@@ -219,6 +249,8 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 			String nom = this.txtNom.getText(); 
 			String prenom = this.txtPrenom.getText();
 			String adresse = this.txtAdresse.getText();
+			String tab [] = txtIdVille.getSelectedItem().toString().split(" - ");
+			int idVille = Integer.parseInt(tab[0]);
 			int codePostal = Integer.parseInt(this.txtCodePostal.getText());
 			String email = this.txtEmail.getText();
 			String tel = this.txtTel.getText();
@@ -227,17 +259,19 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 			lesChamps.add(nom); 
 			lesChamps.add(prenom);
 			lesChamps.add(adresse);
+			lesChamps.add(idVille+"");
             lesChamps.add(codePostal+"");
 			lesChamps.add(email);
 			lesChamps.add(tel); 
 			if (Controleur.verifDonnees(lesChamps)) {
 				//instancier un nouveau proprietaire 
-				Proprietaire unProprietaire = new Proprietaire(idproprietaire, nom, prenom, adresse,codePostal, email, tel); 
+				Proprietaire unProprietaire = new Proprietaire(nom, prenom, adresse, idVille, codePostal, email, tel); 
 				//réaliser la modification dans la BDD 
 				Controleur.updateProprietaire(unProprietaire);
 				//actualiser l'afffichage 
 				this.tableauProprietaires.setDonnees(this.obtenirDonnees(""));
-				PanelContrats.remplirIDProprietaire();//lorsque le panelcontrat sera fait il faudra recharger les id proprietaires apres chaque insert ou update 
+				//PanelContrats.remplirIDProprietaire();
+				//lorsque le panelcontrat sera fait il faudra recharger les id proprietaires apres chaque insert ou update 
 				
 				// message de confirmation 
 				JOptionPane.showMessageDialog(this, "Modification réussie du proprietaire.", 
@@ -261,7 +295,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 			//on actualise l'affichage 
 			this.tableauProprietaires.setDonnees(this.obtenirDonnees(""));
 			this.lbNBProprietaires.setText("Nombre de proprietaires : " + this.tableauProprietaires.getRowCount());
-			PanelContrats.remplirIDProprietaire();
+			//PanelContrats.remplirIDProprietaire();
 			
 			// confirmation de la suppression réussie 
 			JOptionPane.showMessageDialog(this, "Suppression réussie du proprietaire.", 
@@ -269,7 +303,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 			
 			//vider les champs 
 			this.viderChamps();
-			PanelStats.actualiser();
+			//PanelStats.actualiser();
 			
 		}
 	}
@@ -278,6 +312,8 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 		String nom = this.txtNom.getText(); 
 		String prenom = this.txtPrenom.getText();
 		String adresse = this.txtAdresse.getText();
+		String tab [] = txtIdVille.getSelectedItem().toString().split(" - ");
+		int idVille = Integer.parseInt(tab[0]);
         int codePostal = Integer.parseInt(this.txtCodePostal.getText());
 		String email = this.txtEmail.getText();
 		String tel = this.txtTel.getText();
@@ -286,12 +322,13 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 		lesChamps.add(nom); 
 		lesChamps.add(prenom);
 		lesChamps.add(adresse);
+		lesChamps.add(idVille+"");
         lesChamps.add(codePostal+"");
 		lesChamps.add(email);
 		lesChamps.add(tel); 
 		if (Controleur.verifDonnees(lesChamps)) {
 			//créer une instance de la classe Proprietaire 
-			Proprietaire unProprietaire  = new Proprietaire(nom, prenom, adresse, codePostal, email, tel);
+			Proprietaire unProprietaire  = new Proprietaire(nom, prenom, adresse, idVille, codePostal, email, tel);
 			
 			//Insérer dans la base de données 
 			Controleur.insertProprietaire(unProprietaire);
@@ -302,7 +339,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 			
 			//Actualiser l'affichage du tableau proprietaires 
 			this.tableauProprietaires.setDonnees(this.obtenirDonnees(""));
-			PanelContrats.remplirIDProprietaire();
+			//PanelContrats.remplirIDProprietaire();
 			
 		}else {
 			JOptionPane.showMessageDialog(this, "Veuillez remplir les champs.", 
@@ -314,7 +351,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -327,13 +364,12 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	@Override
 	public void actualiser() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'actualiser'");
+		
 	}
 }
 

@@ -1,5 +1,7 @@
 package modele;
 
+
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -9,7 +11,7 @@ import controleur.Ville;
 
 public class Modele {
     /************************* Attributs ****************************/
-    private static Connexion uneConnexion = new Connexion ("localhost:8889", "NeigeSoleil", "root", "root");
+    private static Connexion uneConnexion = new Connexion ("localhost", "NeigeSoleil", "root", "");
 
     /********************* Gestion des utilisateurs **************************/
 
@@ -97,7 +99,7 @@ public class Modele {
             Statement unStat = uneConnexion.getMaConnexion().createStatement();
             ResultSet lesResultats = unStat.executeQuery(requete);
             while (lesResultats.next()) {
-                Ville uneVille = new Ville(lesResultats.getInt("Id Ville"), lesResultats.getString("Nom de la ville"));
+                Ville uneVille = new Ville(lesResultats.getInt("ID_VILLE"), lesResultats.getString("NOM"));
                 lesVilles.add(uneVille);
             }
             unStat.close();
@@ -113,16 +115,16 @@ public class Modele {
 	
 	//Faut creer une procédure d'insertion dans laquelle on appelle un procédure qui genere un mot de passe random pour l'insérer en tant que mdp puis retourner ce mdp pour l'utiliser dans un api de mail pour envoyer le mdp au propriétaire
 	public static void insertProprietaire(Proprietaire unProprietaire) {
-		String requete = "insert into proprietaire values (null, '"+unProprietaire.getNom()
+		String requete = "insert into proprietaire values (null, "+unProprietaire.getId_ville()+",'"+unProprietaire.getNom()
 		+ "','" + unProprietaire.getPrenom() + "','" + unProprietaire.getAdresse() + "','" + unProprietaire.getCode_postal() + "','" + unProprietaire.getTel()
-		+ "','" + unProprietaire.getEmail()+"','" + unProprietaire.getMdp()+"','"+unProprietaire.getRole()+");";
+		+ "','" + unProprietaire.getEmail()+"','1234','Proprietaire');";
 		
 		executerRequete (requete); 
 	}
 
 	public static ArrayList<Proprietaire> selectAllProprietaires (){
 		ArrayList<Proprietaire> lesProprietaires = new ArrayList<Proprietaire>(); 
-		String requete ="select * from proprietaire;";
+		String requete ="select p.*, v.nom ville from proprietaire p join ville v on p.id_ville=v.id_ville;";
 		try {
 			uneConnexion.seConnecter();
 			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
@@ -131,7 +133,7 @@ public class Modele {
 				//instanciation d'un proprietaire 
 				Proprietaire unProprietaire = new Proprietaire(
 						lesResultats.getInt("ID_PROPRIETAIRE"), lesResultats.getString("NOM"),
-						lesResultats.getString("PRENOM"),lesResultats.getString("ADRESSE"),lesResultats.getInt("CODE_POSTAL"),
+						lesResultats.getString("PRENOM"),lesResultats.getString("ADRESSE"),lesResultats.getString("ville"),lesResultats.getInt("CODE_POSTAL"),
 						lesResultats.getString("EMAIL"),lesResultats.getString("TELEPHONE")
 						);
 				//on ajoute le proprietaire dans l'ArrayList
@@ -148,9 +150,9 @@ public class Modele {
 
 	public static ArrayList<Proprietaire> selectLikeProprietaires (String filtre){
 		ArrayList<Proprietaire> lesProprietaires = new ArrayList<Proprietaire>(); 
-		String requete ="select * from proprietaire where nom like '%"+filtre
+		String requete ="select p.*, v.nom ville from proprietaire p join ville v on p.id_ville=v.id_ville where nom like '%"+filtre
 				+"%' or prenom like '%" + filtre + "%' or adresse like '%"
-				+ filtre + "%' or email like '%" + filtre + "%' or tel like '%"
+				+ filtre + "%' or ville like %'" + filtre + "%' or email like '%" + filtre + "%' or tel like '%"
 				+ filtre + "%' ; ";
 		try {
 			uneConnexion.seConnecter();
@@ -160,7 +162,7 @@ public class Modele {
 				//instanciation d'un proprietaire 
 				Proprietaire unProprietaire = new Proprietaire(
 					lesResultats.getInt("ID_PROPRIETAIRE"), lesResultats.getString("NOM"),
-					lesResultats.getString("PRENOM"),lesResultats.getString("ADRESSE"),lesResultats.getInt("CODE_POSTAL"),
+					lesResultats.getString("PRENOM"),lesResultats.getString("ADRESSE"),lesResultats.getString("ville"),lesResultats.getInt("CODE_POSTAL"),
 					lesResultats.getString("EMAIL"),lesResultats.getString("TELEPHONE")
 					);
 				//on ajoute le proprietaire dans l'ArrayList
@@ -227,7 +229,26 @@ public class Modele {
 		return nb;
 	}
 
+	public static String getSaliere() {
+		String grainSel = null;
+		String requete = "select Grain_de_sel from saliere;";
+		try {
+			uneConnexion.seConnecter();
+			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
+			ResultSet unResultat = unStat.executeQuery(requete); 
+			if (unResultat.next()) {
+				grainSel = unResultat.getString("Grain_de_sel");
+			}
+			unStat.close();
+			uneConnexion.seDeConnecter();
+		}
+		catch(SQLException exp) {
+			System.out.println("Erreur d'execution de la requete : " + requete);
+		
+		}
+		return grainSel;
 
+	}
 
 
     

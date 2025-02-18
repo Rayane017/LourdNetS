@@ -14,14 +14,14 @@ public abstract class PanelPrincipal extends JPanel {
     private JLabel lbTitre = new JLabel();
 
     public PanelPrincipal(String titre) {
-        this.setBackground(Color.WHITE);
+        this.setBackground(Color.CYAN);
         this.setBounds(50,80,900,500);
 
-        lbTitre.setText(titre);
+        this.lbTitre.setText(titre);
         Font unePolice = new Font("Arial", Font.BOLD, 20);
         this.lbTitre.setFont(unePolice);
 
-        this.add(lbTitre);
+        this.add(this.lbTitre);
         this.setLayout(null);
         this.setVisible(false);
     }

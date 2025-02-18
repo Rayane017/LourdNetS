@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -82,12 +84,29 @@ public class VueConnexion extends JFrame implements ActionListener, KeyListener
 			 this.traitement (); 
 		 }
 	}
+
+
+    public static String sha1(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            byte[] result = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : result) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 		
 
-	private void traitement() {
+	
+			private void traitement() {
 			//Recuperation des données saisies
 			String email = this.txtEmail.getText();
-			String mdp = new String(this.txtMdp.getPassword());
+			String grainSel = Controleur.getSaliere();
+			String mdp = sha1(new String(this.txtMdp.getPassword()))+sha1(grainSel);
 			//Recuperation du technicien identifié par email et mdp.
 			User unUser = Controleur.selectWhereUser(email, mdp);
 			if (unUser == null) {

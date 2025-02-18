@@ -7,4 +7,5 @@ public class PanelStats {
         throw new UnsupportedOperationException("Unimplemented method 'setVisible'");
     }
 
+ 
 }

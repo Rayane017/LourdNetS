@@ -93,7 +93,7 @@ public class PanelUser extends PanelPrincipal implements ActionListener, KeyList
         public void remplirIdVille() {
             txtIdVille.removeAllItems();
 
-            ArrayList<Ville> lesVilles = Controleur.selectAllVille();
+            ArrayList<Ville> lesVilles = Controleur.selectAllVilles();
 
             for (Ville uneVille : lesVilles){
             txtIdVille.addItem(uneVille.getNom() + "-" + uneVille.getId_ville());

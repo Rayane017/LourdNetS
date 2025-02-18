@@ -3,12 +3,8 @@ package controleur;
 public class Proprietaire {
 
     private int idProprietaire, id_ville, code_postal;
-    private String nom, prenom, adresse, tel, email, mdp, role;
+    private String nom, prenom, adresse, ville, tel, email, mdp, role;
     
-
-// Constructors
-public Proprietaire() {
-}
 
 public Proprietaire(int idProprietaire, int id_ville, int code_postal, String tel, String nom, String prenom, String adresse, String email, String mdp, String role) {
     this.idProprietaire = (Integer) null;
@@ -23,12 +19,25 @@ public Proprietaire(int idProprietaire, int id_ville, int code_postal, String te
     this.role = "Proprietaire";
 }
 
-public Proprietaire(int idProprietaire, String nom, String prenom, String adresse, int code_postal, String email, String tel) {
-    this.idProprietaire = idProprietaire;
-    this.id_ville = 0;
+
+public Proprietaire(int id_proprietaire, String nom, String prenom, String adresse, String ville, int code_postal, String email,
+        String Telephone) {
+    this.idProprietaire = id_proprietaire;
     this.nom = nom;
     this.prenom = prenom;
     this.adresse = adresse;
+    this.ville = ville;
+    this.code_postal = code_postal;
+    this.email = email;
+    this.tel = tel;
+}
+
+public Proprietaire(String nom, String prenom, String adresse, int idville, int code_postal, String email,
+        String Telephone) {
+    this.nom = nom;
+    this.prenom = prenom;
+    this.adresse = adresse;
+    this.id_ville = id_ville;
     this.code_postal = code_postal;
     this.email = email;
     this.tel = tel;
@@ -36,14 +45,9 @@ public Proprietaire(int idProprietaire, String nom, String prenom, String adress
 
 
 
-public Proprietaire(String nom, String prenom, String adresse, int code_postal, String email, String tel) {
-    this.nom = nom;
-    this.prenom = prenom;
-    this.adresse = adresse;
-    this.code_postal = code_postal;
-    this.email = email;
-    this.tel = tel;
-}
+
+
+
 
 // Getters and Setters
 public int getIdProprietaire() {
@@ -125,5 +129,15 @@ public String getRole() {
 public void setRole(String role) {
     this.role = role;
 }
+
+public void setVille(String ville) {
+    this.ville = ville;
+}
+
+
+public String getVille() {
+    return ville;
+}
+
 
 }
