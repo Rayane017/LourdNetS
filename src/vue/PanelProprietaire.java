@@ -199,11 +199,11 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 		Object matrice[][] = new Object[lesProprietaires.size()][8];
 		int i = 0; 
 		for (Proprietaire unProprietaire : lesProprietaires) {
-			matrice[i][0] = unProprietaire.getIdProprietaire(); 
+			matrice[i][0] = unProprietaire.getId_proprietaire(); 
 			matrice[i][1] = unProprietaire.getNom(); 
 			matrice[i][2] = unProprietaire.getPrenom(); 
 			matrice[i][3] = unProprietaire.getAdresse(); 
-			matrice[i][4] = unProprietaire.getId_ville();
+			matrice[i][4] = unProprietaire.getVille();
             matrice[i][5] = unProprietaire.getCode_postal();
 			matrice[i][6] = unProprietaire.getEmail(); 
 			matrice[i][7] = unProprietaire.getTel(); 
@@ -265,7 +265,16 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 			lesChamps.add(tel); 
 			if (Controleur.verifDonnees(lesChamps)) {
 				//instancier un nouveau proprietaire 
-				Proprietaire unProprietaire = new Proprietaire(nom, prenom, adresse, idVille, codePostal, email, tel); 
+				Proprietaire unProprietaire = new Proprietaire();
+				unProprietaire.setId_proprietaire(idproprietaire);
+				unProprietaire.setNom(nom);
+				unProprietaire.setPrenom(prenom);
+				unProprietaire.setAdresse(adresse);
+				unProprietaire.setId_ville(idVille);
+				unProprietaire.setCode_postal(codePostal);
+				unProprietaire.setEmail(email);
+				unProprietaire.setTel(tel);
+				unProprietaire.setVille(txtIdVille.getSelectedItem().toString());
 				//réaliser la modification dans la BDD 
 				Controleur.updateProprietaire(unProprietaire);
 				//actualiser l'afffichage 
@@ -328,7 +337,14 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 		lesChamps.add(tel); 
 		if (Controleur.verifDonnees(lesChamps)) {
 			//créer une instance de la classe Proprietaire 
-			Proprietaire unProprietaire  = new Proprietaire(nom, prenom, adresse, idVille, codePostal, email, tel);
+			Proprietaire unProprietaire  = new Proprietaire();
+			unProprietaire.setNom(nom);
+			unProprietaire.setPrenom(prenom);
+			unProprietaire.setAdresse(adresse);
+			unProprietaire.setId_ville(idVille);
+			unProprietaire.setCode_postal(codePostal);
+			unProprietaire.setEmail(email);
+			unProprietaire.setTel(tel);
 			
 			//Insérer dans la base de données 
 			Controleur.insertProprietaire(unProprietaire);

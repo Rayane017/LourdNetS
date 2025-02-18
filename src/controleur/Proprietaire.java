@@ -2,141 +2,122 @@ package controleur;
 
 public class Proprietaire {
 
-    private int idProprietaire, id_ville, code_postal;
+    private int id_proprietaire, id_ville, code_postal;
     private String nom, prenom, adresse, ville, tel, email, mdp, role;
     
 
-public Proprietaire(int idProprietaire, int id_ville, int code_postal, String tel, String nom, String prenom, String adresse, String email, String mdp, String role) {
-    this.idProprietaire = (Integer) null;
-    this.id_ville = id_ville;
-    this.code_postal = code_postal;
-    this.tel = tel;
-    this.nom = nom;
-    this.prenom = prenom;
-    this.adresse = adresse;
-    this.email = email;
-    this.mdp = "1234";
-    this.role = "Proprietaire";
+public Proprietaire() {
+
 }
 
 
-public Proprietaire(int id_proprietaire, String nom, String prenom, String adresse, String ville, int code_postal, String email,
-        String Telephone) {
-    this.idProprietaire = id_proprietaire;
-    this.nom = nom;
-    this.prenom = prenom;
-    this.adresse = adresse;
-    this.ville = ville;
-    this.code_postal = code_postal;
-    this.email = email;
-    this.tel = tel;
-}
-
-public Proprietaire(String nom, String prenom, String adresse, int idville, int code_postal, String email,
-        String Telephone) {
-    this.nom = nom;
-    this.prenom = prenom;
-    this.adresse = adresse;
-    this.id_ville = id_ville;
-    this.code_postal = code_postal;
-    this.email = email;
-    this.tel = tel;
+public int getId_proprietaire() {
+    return id_proprietaire;
 }
 
 
-
-
-
-
-
-// Getters and Setters
-public int getIdProprietaire() {
-    return idProprietaire;
+public void setId_proprietaire(int id_proprietaire) {
+    this.id_proprietaire = id_proprietaire;
 }
 
-public void setIdProprietaire(int idProprietaire) {
-    this.idProprietaire = idProprietaire;
-}
 
 public int getId_ville() {
     return id_ville;
 }
 
+
 public void setId_ville(int id_ville) {
     this.id_ville = id_ville;
 }
+
 
 public int getCode_postal() {
     return code_postal;
 }
 
+
 public void setCode_postal(int code_postal) {
     this.code_postal = code_postal;
 }
 
-public String getTel() {
-    return tel;
-}
-
-public void setTel(String tel) {
-    this.tel = tel;
-}
 
 public String getNom() {
     return nom;
 }
 
+
 public void setNom(String nom) {
     this.nom = nom;
 }
+
 
 public String getPrenom() {
     return prenom;
 }
 
+
 public void setPrenom(String prenom) {
     this.prenom = prenom;
 }
+
 
 public String getAdresse() {
     return adresse;
 }
 
+
 public void setAdresse(String adresse) {
     this.adresse = adresse;
 }
 
-public String getEmail() {
-    return email;
+
+public String getVille() {
+    return ville;
 }
 
-public void setEmail(String email) {
-    this.email = email;
-}
-
-public String getMdp() {
-    return mdp;
-}
-
-public void setMdp(String mdp) {
-    this.mdp = mdp;
-}
-
-public String getRole() {
-    return role;
-}
-
-public void setRole(String role) {
-    this.role = role;
-}
 
 public void setVille(String ville) {
     this.ville = ville;
 }
 
 
-public String getVille() {
-    return ville;
+public String getTel() {
+    return tel;
+}
+
+
+public void setTel(String tel) {
+    this.tel = tel;
+}
+
+
+public String getEmail() {
+    return email;
+}
+
+
+public void setEmail(String email) {
+    this.email = email;
+}
+
+
+public String getMdp() {
+    return mdp;
+}
+
+
+public void setMdp(String mdp) {
+    this.mdp = mdp;
+}
+
+
+public String getRole() {
+    return role;
+}
+
+
+public void setRole(String role) {
+    this.role = role;
 }
 
 

@@ -131,11 +131,10 @@ public class Modele {
 			ResultSet lesResultats = unStat.executeQuery(requete);
 			while(lesResultats.next()) {
 				//instanciation d'un proprietaire 
-				Proprietaire unProprietaire = new Proprietaire(
-						lesResultats.getInt("ID_PROPRIETAIRE"), lesResultats.getString("NOM"),
-						lesResultats.getString("PRENOM"),lesResultats.getString("ADRESSE"),lesResultats.getString("ville"),lesResultats.getInt("CODE_POSTAL"),
-						lesResultats.getString("EMAIL"),lesResultats.getString("TELEPHONE")
-						);
+				Proprietaire unProprietaire = new Proprietaire(); 
+						unProprietaire.setId_proprietaire( lesResultats.getInt("ID_PROPRIETAIRE")); unProprietaire.setNom(lesResultats.getString("NOM"));
+						unProprietaire.setPrenom(lesResultats.getString("PRENOM"));unProprietaire.setAdresse(lesResultats.getString("ADRESSE"));unProprietaire.setVille(lesResultats.getString("ville"));unProprietaire.setCode_postal(lesResultats.getInt("CODE_POSTAL"));
+						unProprietaire.setEmail(lesResultats.getString("EMAIL"));unProprietaire.setTel(lesResultats.getString("TELEPHONE"));
 				//on ajoute le proprietaire dans l'ArrayList
 				lesProprietaires.add(unProprietaire);
 			}
@@ -160,11 +159,10 @@ public class Modele {
 			ResultSet lesResultats = unStat.executeQuery(requete);
 			while(lesResultats.next()) {
 				//instanciation d'un proprietaire 
-				Proprietaire unProprietaire = new Proprietaire(
-					lesResultats.getInt("ID_PROPRIETAIRE"), lesResultats.getString("NOM"),
-					lesResultats.getString("PRENOM"),lesResultats.getString("ADRESSE"),lesResultats.getString("ville"),lesResultats.getInt("CODE_POSTAL"),
-					lesResultats.getString("EMAIL"),lesResultats.getString("TELEPHONE")
-					);
+				Proprietaire unProprietaire = new Proprietaire(); 
+				unProprietaire.setId_proprietaire( lesResultats.getInt("ID_PROPRIETAIRE")); unProprietaire.setNom(lesResultats.getString("NOM"));
+				unProprietaire.setPrenom(lesResultats.getString("PRENOM"));unProprietaire.setAdresse(lesResultats.getString("ADRESSE"));unProprietaire.setVille(lesResultats.getString("ville"));unProprietaire.setCode_postal(lesResultats.getInt("CODE_POSTAL"));
+				unProprietaire.setEmail(lesResultats.getString("EMAIL"));unProprietaire.setTel(lesResultats.getString("TELEPHONE"));
 				//on ajoute le proprietaire dans l'ArrayList
 				lesProprietaires.add(unProprietaire);
 			}
@@ -181,8 +179,8 @@ public class Modele {
 		String requete ="update proprietaire set nom = '" + unProprietaire.getNom() 
 		+ "', prenom ='"+unProprietaire.getPrenom() + "', adresse='" + unProprietaire.getAdresse()
 		+ "', code_postal='" + unProprietaire.getCode_postal()
-		+ "', email ='"+unProprietaire.getEmail() + "', tel='" + unProprietaire.getTel()
-		+ "'  where  id_proprietaire = "+unProprietaire.getIdProprietaire()+";";
+		+ "', email ='"+unProprietaire.getEmail() + "', telephone='" + unProprietaire.getTel()
+		+ "'  where  id_proprietaire = "+unProprietaire.getId_proprietaire()+";";
 		
 		executerRequete(requete);
 	}
