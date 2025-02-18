@@ -279,9 +279,8 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 				Controleur.updateProprietaire(unProprietaire);
 				//actualiser l'afffichage 
 				this.tableauProprietaires.setDonnees(this.obtenirDonnees(""));
-				//PanelContrats.remplirIDProprietaire();
-				//lorsque le panelcontrat sera fait il faudra recharger les id proprietaires apres chaque insert ou update 
-				
+				PanelContrat.remplirIdProprietaire();
+			
 				// message de confirmation 
 				JOptionPane.showMessageDialog(this, "Modification réussie du proprietaire.", 
 						"Modification Proprietaire", JOptionPane.INFORMATION_MESSAGE);
@@ -313,6 +312,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 			//vider les champs 
 			this.viderChamps();
 			//PanelStats.actualiser();
+			PanelContrat.remplirIdProprietaire();
 			
 		}
 	}
@@ -355,7 +355,7 @@ public class PanelProprietaire extends PanelPrincipal implements ActionListener,
 			
 			//Actualiser l'affichage du tableau proprietaires 
 			this.tableauProprietaires.setDonnees(this.obtenirDonnees(""));
-			//PanelContrats.remplirIDProprietaire();
+			PanelContrat.remplirIdProprietaire();
 			
 		}else {
 			JOptionPane.showMessageDialog(this, "Veuillez remplir les champs.", 

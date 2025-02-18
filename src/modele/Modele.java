@@ -5,6 +5,9 @@ package modele;
 import java.sql.*;
 import java.util.ArrayList;
 
+import controleur.Appartement;
+import controleur.Batiment;
+import controleur.Contrat;
 import controleur.Proprietaire;
 import controleur.User;
 import controleur.Ville;
@@ -266,6 +269,138 @@ public class Modele {
 	}
 
 
+	 /************************ GESTION DES CONTRATS **********************/
+	
+	public static void insertContrat(Contrat unContrat) {
+		String requete = "insert into contrat_de_mandat_locatif values (null, "+unContrat.getIdProprietaire()+",'"+unContrat.getIdBatiment()
+		+ "'," + unContrat.getNumeroAppartement() + ",'" + unContrat.getRIB() + "'," + unContrat.getTarifHaute() + "," + unContrat.getTarifMoyen()
+		+ "," + unContrat.getTarifBasse()+",null,"+unContrat.getAnneeLocation()+",'"+unContrat.getEtat()+"');";
+		
+		executerRequete (requete); 
+	}
+
+	public static ArrayList<Contrat> selectAllContrats (){
+		ArrayList<Contrat> lesContrats = new ArrayList<Contrat>(); 
+		String requete ="select * from contrat_de_mandat_locatif;";
+		try {
+			uneConnexion.seConnecter();
+			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
+			ResultSet lesResultats = unStat.executeQuery(requete);
+			while(lesResultats.next()) {
+				//instanciation d'un contrat 
+				Contrat unContrat = new Contrat(); 
+						unContrat.setIdContrat( lesResultats.getInt("ID_CONTRAT")); 
+						unContrat.setIdProprietaire(lesResultats.getInt("ID_PROPRIETAIRE"));
+						unContrat.setIdBatiment(lesResultats.getString("ID_BATIMENT"));
+						unContrat.setNumeroAppartement(lesResultats.getInt("NUMERO_APPARTEMENT"));
+						unContrat.setRIB(lesResultats.getString("RIB"));
+						unContrat.setTarifHaute(lesResultats.getFloat("TARIF_HAUTE"));
+						unContrat.setTarifMoyen(lesResultats.getFloat("TARIF_MOYEN"));
+						unContrat.setTarifBasse(lesResultats.getFloat("TARIF_BASSE"));
+						unContrat.setAnneeLocation(lesResultats.getInt("annee_de_location"));
+						unContrat.setEtat(lesResultats.getString("ETAT"));
+				//on ajoute le contrat dans l'ArrayList
+				lesContrats.add(unContrat);
+			}
+			unStat.close();
+			uneConnexion.seDeConnecter();
+		}
+		catch(SQLException exp) {
+			System.out.println("Erreur d'execution de la requete : " + requete);
+		}
+		return lesContrats; 
+	}
+
+	public static ArrayList<Contrat> selectLikeContrats (String filtre){
+		ArrayList<Contrat> lesContrats = new ArrayList<Contrat>(); 
+		String requete ="select * from contrat_de_mandat_locatif where ID_CONTRAT like '%"+filtre
+				+"%' or ID_PROPRIETAIRE like '%" + filtre + "%' or ID_BATIMENT like '%"
+				+ filtre + "%' or NUMERO_APPARTEMENT like '%" + filtre + "%' or RIB like '%" + filtre + "%' or ETAT like '%"
+				+ filtre + "%' or ANNEE_DE_LOCATION like '%"+filtre+"%'; ";
+		try {
+			uneConnexion.seConnecter();
+			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
+			ResultSet lesResultats = unStat.executeQuery(requete);
+			while(lesResultats.next()) {
+				//instanciation d'un contrat 
+				Contrat unContrat = new Contrat(); 
+				unContrat.setIdContrat( lesResultats.getInt("ID_CONTRAT")); 
+						unContrat.setIdProprietaire(lesResultats.getInt("ID_PROPRIETAIRE"));
+						unContrat.setIdBatiment(lesResultats.getString("ID_BATIMENT"));
+						unContrat.setNumeroAppartement(lesResultats.getInt("NUMERO_APPARTEMENT"));
+						unContrat.setRIB(lesResultats.getString("RIB"));
+						unContrat.setTarifHaute(lesResultats.getFloat("TARIF_HAUTE"));
+						unContrat.setTarifMoyen(lesResultats.getFloat("TARIF_MOYEN"));
+						unContrat.setTarifBasse(lesResultats.getFloat("TARIF_BASSE"));
+						unContrat.setAnneeLocation(lesResultats.getInt("annee_de_location"));
+						unContrat.setEtat(lesResultats.getString("ETAT"));
+				//on ajoute le contrat dans l'ArrayList
+				lesContrats.add(unContrat);
+			}
+			unStat.close();
+			uneConnexion.seDeConnecter();
+		}
+		catch(SQLException exp) {
+			System.out.println("Erreur d'execution de la requete : " + requete);
+		}
+		return lesContrats; 
+	}
+
+	public static void updateContrat(Contrat unContrat) {
+		String requete ="update contrat_de_mandat_locatif set ETAT ='"+unContrat.getEtat() +"' where ID_CONTRAT = "+unContrat.getIdContrat()+";";
+		
+		executerRequete(requete);
+	}
+
+	public static void deleteContrat (int idContrat) {
+		String requete = "delete from contrat_de_mandat_locatif where id_contrat = "+idContrat+";";
+		executerRequete(requete);
+	}
+
+	// remplir le combo box
+	public static ArrayList<Batiment> selectAllBatiments(){
+        ArrayList<Batiment> lesBatiments = new ArrayList<Batiment>();
+        String requete = "select * from Batiment;";
+        try{
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet lesResultats = unStat.executeQuery(requete);
+            while (lesResultats.next()) {
+                Batiment unBatiment = new Batiment();
+				unBatiment.setIdBatiment(lesResultats.getString("ID_BATIMENT")); 
+                lesBatiments.add(unBatiment);
+            }
+            unStat.close();
+            uneConnexion.seDeConnecter();
+        }
+        catch(SQLException exp){
+            System.out.println("Erreur d'execution de la requete : " + requete);
+        }
+        return lesBatiments;
+    }
+
+	// remplir le combo box
+	public static ArrayList<Appartement> selectAllAppartements(){
+        ArrayList<Appartement> lesAppartements = new ArrayList<Appartement>();
+        String requete = "select * from Appartement;";
+        try{
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet lesResultats = unStat.executeQuery(requete);
+            while (lesResultats.next()) {
+                Appartement unAppartement = new Appartement();
+				unAppartement.setIdBatiment(lesResultats.getString("ID_BATIMENT")); 
+				unAppartement.setNumeroAppartement(lesResultats.getInt("NUMERO_APPARTEMENT"));
+                lesAppartements.add(unAppartement);
+            }
+            unStat.close();
+            uneConnexion.seDeConnecter();
+        }
+        catch(SQLException exp){
+            System.out.println("Erreur d'execution de la requete : " + requete);
+        }
+        return lesAppartements;
+    }
 
     /********************* Autres méthodes **************************/
 

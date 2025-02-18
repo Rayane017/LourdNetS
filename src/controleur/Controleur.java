@@ -98,5 +98,34 @@ public class Controleur {
 			Modele.deleteProprietaire(idProprietaire);
 		}
 	
+		/************************ GESTION DES CONTRATS ************************/
+
+			public static void insertContrat(Contrat unContrat) {
+			Modele.insertContrat(unContrat);
+		}
+	
+		public static ArrayList<Contrat> selectAllContrats (){
+			return Modele.selectAllContrats();
+		}
+	
+		public static ArrayList<Contrat> selectLikeContrats (String filtre){
+			return Modele.selectLikeContrats(filtre);
+		}
+	
+		public static void updateContrat(Contrat unContrat) {
+			Modele.updateContrat(unContrat);
+		}
+	
+		public static void deleteContrat (int idContrat) {
+			Modele.deleteContrat(idContrat);
+		}
+
+		public static ArrayList<Batiment> selectAllBatiments() {
+			return Modele.selectAllBatiments();
+		}
+
+		public static ArrayList<Appartement> selectAllAppartements() {
+			return Modele.selectAllAppartements();
+		}
 		
 }

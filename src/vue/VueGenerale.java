@@ -30,7 +30,7 @@ public class VueGenerale extends JFrame implements ActionListener
     public  static PanelVille unPanelVille = new PanelVille();
     public static PanelUser unPanelUser = new PanelUser();
     public static PanelProprietaire unPanelProprietaire = new PanelProprietaire();
-    public static PanelContrats unPanelContrats = new PanelContrats();
+    public static PanelContrat unPanelContrat = new PanelContrat();
     public static PanelStats unPanelStats = new PanelStats();
 
     public VueGenerale() {
@@ -69,8 +69,7 @@ public class VueGenerale extends JFrame implements ActionListener
         this.add(unPanelVille); 
 		this.add(unPanelUser); 
 		this.add(unPanelProprietaire); 
-		//this.add(unPanelReservations); 
-		//this.add(unPanelContrats);  
+		this.add(unPanelContrat);  
 		//this.add(unPanelStats); 
 		
 		this.setVisible(true);
@@ -81,13 +80,13 @@ public class VueGenerale extends JFrame implements ActionListener
         unPanelVille.setVisible(false);
         unPanelUser.setVisible(false);
         unPanelProprietaire.setVisible(false);
-        unPanelContrats.setVisible(false);
+        unPanelContrat.setVisible(false);
         //unPanelStats.setVisible(false);
         switch(choix) {
             case 1: unPanelVille.setVisible(true); break; 
             case 2: unPanelUser.setVisible(true); break; 
             case 3: unPanelProprietaire.setVisible(true); break;
-            case 4: unPanelContrats.setVisible(true); break; 
+            case 4: unPanelContrat.setVisible(true); break; 
             case 5: unPanelStats.setVisible(true); break; 
         }
 
