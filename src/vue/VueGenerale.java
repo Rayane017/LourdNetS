@@ -23,6 +23,8 @@ public class VueGenerale extends JFrame implements ActionListener
     private JButton btProprietaire = new JButton("Proprietaires");
     private JButton btContrats = new JButton("Contrats");
     private JButton btStats = new JButton("Statistiques");
+    private JButton btResaParType = new JButton("Résa par Type");
+    private JButton btCaParDpt = new JButton("CA par Dpt");
     private JButton btQuitter = new JButton("Quitter");
    
 
@@ -32,6 +34,8 @@ public class VueGenerale extends JFrame implements ActionListener
     public static PanelProprietaire unPanelProprietaire = new PanelProprietaire();
     public static PanelContrat unPanelContrat = new PanelContrat();
     public static PanelStats unPanelStats = new PanelStats();
+    public static PanelResaParType unPanelResaParType = new PanelResaParType();
+    public static PanelCaParDpt unPanelCaParDpt = new PanelCaParDpt();
 
     public VueGenerale() {
         this.setTitle("Gestion Neige et Soleil 2025");
@@ -45,12 +49,14 @@ public class VueGenerale extends JFrame implements ActionListener
 
         this.panelMenu.setBackground(Color.white);
         this.panelMenu.setBounds(50, 10, 900, 40);
-        this.panelMenu.setLayout(new GridLayout(1,6));
+        this.panelMenu.setLayout(new GridLayout(1,8));
         this.panelMenu.add(this.btVilles);
         this.panelMenu.add(this.btUser);
         this.panelMenu.add(this.btProprietaire);
         this.panelMenu.add(this.btContrats);
         this.panelMenu.add(this.btStats);
+        this.panelMenu.add(this.btResaParType);
+        this.panelMenu.add(this.btCaParDpt);
         this.panelMenu.add(this.btQuitter);
         this.add(this.panelMenu);
        
@@ -62,6 +68,8 @@ public class VueGenerale extends JFrame implements ActionListener
         this.btProprietaire.addActionListener(this);
         this.btContrats.addActionListener(this);
         this.btStats.addActionListener(this);
+        this.btResaParType.addActionListener(this);
+        this.btCaParDpt.addActionListener(this);
         this.btQuitter.addActionListener(this);
 
 
@@ -70,6 +78,8 @@ public class VueGenerale extends JFrame implements ActionListener
 		this.add(unPanelUser); 
 		this.add(unPanelProprietaire); 
 		this.add(unPanelContrat);  
+		this.add(unPanelResaParType);
+		this.add(unPanelCaParDpt);
 		//this.add(unPanelStats); 
 		
 		this.setVisible(true);
@@ -81,6 +91,8 @@ public class VueGenerale extends JFrame implements ActionListener
         unPanelUser.setVisible(false);
         unPanelProprietaire.setVisible(false);
         unPanelContrat.setVisible(false);
+        unPanelResaParType.setVisible(false);
+        unPanelCaParDpt.setVisible(false);
         //unPanelStats.setVisible(false);
         switch(choix) {
             case 1: unPanelVille.setVisible(true); break; 
@@ -88,6 +100,8 @@ public class VueGenerale extends JFrame implements ActionListener
             case 3: unPanelProprietaire.setVisible(true); break;
             case 4: unPanelContrat.setVisible(true); break; 
             case 5: unPanelStats.setVisible(true); break; 
+            case 6: unPanelResaParType.setVisible(true); break;
+            case 7: unPanelCaParDpt.setVisible(true); break;
         }
 
     }
@@ -102,6 +116,8 @@ public class VueGenerale extends JFrame implements ActionListener
             case "Proprietaires": this.afficherPanel(3); break; 
             case "Contrats": this.afficherPanel(4); break;
             case "Statistiques": this.afficherPanel(5); break;
+            case "Résa par Type": this.afficherPanel(6); break;
+            case "CA par Dpt": this.afficherPanel(7); break;
             case "Quitter": Neige.creerVueGenerale(false); 
                             Neige.rendreVisibleVueConnexion(true);break;
         }

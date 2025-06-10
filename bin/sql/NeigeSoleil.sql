@@ -2,6 +2,15 @@
     CREATE DATABASE IF NOT EXISTS NeigeSoleil;
     USE NeigeSoleil;
 
+    # ---------------------------------------------------------------------------
+    # TABLE : REGION
+    # ---------------------------------------------------------------------------
+    CREATE TABLE IF NOT EXISTS REGION (
+        ID_REGION INT NOT NULL AUTO_INCREMENT,
+        NOM VARCHAR(128) DEFAULT NULL,
+        CONSTRAINT PK_REGION PRIMARY KEY (ID_REGION)
+    ) ENGINE=InnoDB;
+
 
     # ---------------------------------------------------------------------------
     # TABLE : VILLE 
@@ -9,7 +18,9 @@
     CREATE TABLE IF NOT EXISTS VILLE (
         ID_VILLE INT NOT NULL AUTO_INCREMENT,
         NOM VARCHAR(128) DEFAULT NULL,
-        CONSTRAINT PK_VILLE PRIMARY KEY (ID_VILLE)
+        ID_REGION INT NOT NULL,
+        CONSTRAINT PK_VILLE PRIMARY KEY (ID_VILLE),
+        CONSTRAINT FK_VILLE_REGION FOREIGN KEY (ID_REGION) REFERENCES REGION(ID_REGION)
     ) ENGINE=InnoDB;
 
     # ---------------------------------------------------------------------------
@@ -512,11 +523,17 @@
 
     DELIMITER ; 
 
+    -- Insertion dans la table REGION
+    INSERT INTO REGION (NOM) VALUES
+    ('Ile-de-France'),
+    ('Rhône-Alpes'),
+    ('Provence-Alpes-Côte d''Azur');
+
     -- Insertion dans la table VILLE
-    INSERT INTO VILLE (NOM) VALUES
-    ('Paris'),
-    ('Lyon'),
-    ('Marseille');
+    INSERT INTO VILLE (NOM, ID_REGION) VALUES
+    ('Paris', 1),
+    ('Lyon', 2),
+    ('Marseille', 3);
 
     --Grain de sel
     INSERT INTO Saliere (Grain_de_sel) VALUES (sha1('2456878090'));
@@ -608,6 +625,16 @@
         (3, '2023-03-01', '2023-03-07');
 
         
+
+
+drop view if exists ResaParType;
+create view ResaParType as
+select TYPE, count(*) as nbResa from APPARTEMENT a join CONTRAT_DE_RESERVATION c on a.ID_BATIMENT = c.ID_BATIMENT and a.NUMERO_APPARTEMENT = c.NUMERO_APPARTEMENT group by a.TYPE order by nbResa asc;
+
+
+
+drop view if exists CaParDpt; 
+create view CaParDpt as select r.nom dpt, SUM((TARIF_HAUTE*0.1)) ca from CONTRAT_DE_MANDAT_LOCATIF c join APPARTEMENT a on c.ID_BATIMENT = a.ID_BATIMENT and c.NUMERO_APPARTEMENT = a.NUMERO_APPARTEMENT join VILLE v on a.ID_VILLE = v.ID_VILLE join Region r on v.ID_REGION = r.ID_REGION group by r.ID_REGION order by ca asc;
 
 
 

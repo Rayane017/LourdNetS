@@ -7,8 +7,10 @@ import java.util.ArrayList;
 
 import controleur.Appartement;
 import controleur.Batiment;
+import controleur.CaParDpt;
 import controleur.Contrat;
 import controleur.Proprietaire;
+import controleur.ResaParType;
 import controleur.User;
 import controleur.Ville;
 
@@ -401,6 +403,51 @@ public class Modele {
         }
         return lesAppartements;
     }
+
+	public static ArrayList<ResaParType> selectAllResaParType(){
+        ArrayList<ResaParType> lesStats = new ArrayList<ResaParType>();
+        String requete = "SELECT * FROM ResaParType;";
+        try{
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet lesResultats = unStat.executeQuery(requete);
+            while (lesResultats.next()) {
+                ResaParType uneStat = new ResaParType();
+				uneStat.setType(lesResultats.getString("TYPE")); 
+				uneStat.setNbResa(lesResultats.getInt("nbResa"));
+                lesStats.add(uneStat);
+            }
+            unStat.close();
+            uneConnexion.seDeConnecter();
+        }
+        catch(SQLException exp){
+            System.out.println("Erreur d'execution de la requete : " + requete);
+        }
+        return lesStats;
+    }
+
+	public static ArrayList<CaParDpt> selectAllCaParDpt(){
+        ArrayList<CaParDpt> lesStats = new ArrayList<CaParDpt>();
+        String requete = "SELECT * FROM CaParDpt;";
+        try{
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet lesResultats = unStat.executeQuery(requete);
+            while (lesResultats.next()) {
+                CaParDpt uneStat = new CaParDpt(); 
+				uneStat.setDpt(lesResultats.getString("DPT"));
+				uneStat.setCa(lesResultats.getBigDecimal("CA"));
+                lesStats.add(uneStat);
+            }
+            unStat.close();
+            uneConnexion.seDeConnecter();
+        }
+        catch(SQLException exp){
+            System.out.println("Erreur d'execution de la requete : " + requete);
+        }
+        return lesStats;
+    }
+	
 
     /********************* Autres méthodes **************************/
 

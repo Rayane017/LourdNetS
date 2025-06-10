@@ -128,4 +128,17 @@ public class Controleur {
 			return Modele.selectAllAppartements();
 		}
 		
-}
+	/************************ GESTION DES RESAPARTYPE ************************/
+
+	public static ArrayList<ResaParType> selectAllResaParType() {
+		return Modele.selectAllResaParType();
+	}
+
+	/************************ GESTION DES CAPARDPT ************************/
+
+	public static ArrayList<CaParDpt> selectAllCaParDpt() {
+		return Modele.selectAllCaParDpt();
+	}
+
+
+	}
