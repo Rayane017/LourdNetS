@@ -20,7 +20,7 @@ public class Modele {
 
 
     public static User selectWhereUser (String email, String mdp){
-        String requete = "select * from User where email ='"+email+"' and mdp ='"+mdp+"';";
+        String requete = "SELECT * FROM USER WHERE EMAIL ='"+email+"' AND MDP ='"+mdp+"';";
         User unUser = null;
         try{
             uneConnexion.seConnecter();
@@ -28,13 +28,13 @@ public class Modele {
             ResultSet unResultat = unStat.executeQuery(requete);
             if (unResultat.next()){
                 unUser = new User();
-				unUser.setId_user(unResultat.getInt("id_user"));
-				unUser.setNom(unResultat.getString("nom"));
-				unUser.setPrenom(unResultat.getString("prenom"));
-				unUser.setAdresse(unResultat.getString("adresse"));
-				unUser.setCp(unResultat.getInt("code_postal"));
-				unUser.setEmail(unResultat.getString("email"));
-				unUser.setTelephone(unResultat.getString("telephone"));
+				unUser.setId_user(unResultat.getInt("ID_USER"));
+				unUser.setNom(unResultat.getString("NOM"));
+				unUser.setPrenom(unResultat.getString("PRENOM"));
+				unUser.setAdresse(unResultat.getString("ADRESSE"));
+				unUser.setCp(unResultat.getInt("CODE_POSTAL"));
+				unUser.setEmail(unResultat.getString("EMAIL"));
+				unUser.setTelephone(unResultat.getString("TELEPHONE"));
             }
             unStat.close();
             uneConnexion.seDeConnecter();
@@ -45,16 +45,16 @@ public class Modele {
     }
 
 	public static void insertUser(User unUser) {
-		String requete = "insert into User values (null, "+unUser.getId_ville()+",'"+unUser.getNom()
+		String requete = "INSERT INTO USER VALUES (NULL, "+unUser.getId_ville()+",'"+unUser.getNom()
 		+ "','" + unUser.getPrenom() + "','" + unUser.getAdresse() + "','" + unUser.getCp() + "','" + unUser.getTelephone()
-		+ "','" + unUser.getEmail()+"','1234',current_timestamp(),'Admin');";
+		+ "','" + unUser.getEmail()+"','1234','Admin');";
 		
 		executerRequete (requete); 
 	}
 
 	public static ArrayList<User> selectAllUsers (){
 		ArrayList<User> lesUsers = new ArrayList<User>(); 
-		String requete ="select u.*, v.nom ville from User u join ville v on u.id_ville=v.id_ville;";
+		String requete ="SELECT U.*, V.NOM AS VILLE FROM USER U JOIN VILLE V ON U.ID_VILLE=V.ID_VILLE;";
 		try {
 			uneConnexion.seConnecter();
 			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
@@ -63,7 +63,7 @@ public class Modele {
 				//instanciation d'un user 
 				User unUser = new User(); 
 						unUser.setId_user( lesResultats.getInt("ID_USER")); unUser.setNom(lesResultats.getString("NOM"));
-						unUser.setPrenom(lesResultats.getString("PRENOM"));unUser.setAdresse(lesResultats.getString("ADRESSE"));unUser.setVille(lesResultats.getString("ville"));unUser.setCp(lesResultats.getInt("CODE_POSTAL"));
+						unUser.setPrenom(lesResultats.getString("PRENOM"));unUser.setAdresse(lesResultats.getString("ADRESSE"));unUser.setVille(lesResultats.getString("VILLE"));unUser.setCp(lesResultats.getInt("CODE_POSTAL"));
 						unUser.setEmail(lesResultats.getString("EMAIL"));unUser.setTelephone(lesResultats.getString("TELEPHONE"));
 						unUser.setRole(lesResultats.getString("ROLE"));
 				//on ajoute le user dans l'ArrayList
@@ -80,10 +80,10 @@ public class Modele {
 
 	public static ArrayList<User> selectLikeUsers (String filtre){
 		ArrayList<User> lesUsers = new ArrayList<User>(); 
-		String requete ="select u.*, v.nom as ville from `User` u join ville v on u.id_ville=v.id_ville where u.nom like '%"+filtre
-				+"%' or u.prenom like '%" + filtre + "%' or u.adresse like '%"
-				+ filtre + "%' or v.nom like '%" + filtre + "%' or u.email like '%" + filtre + "%' or u.telephone like '%"
-				+ filtre + "%' or u.role like '%"+filtre+"%'; ";
+		String requete ="SELECT U.*, V.NOM AS VILLE FROM USER U JOIN VILLE V ON U.ID_VILLE=V.ID_VILLE WHERE U.NOM LIKE '%"+filtre
+				+"%' OR U.PRENOM LIKE '%" + filtre + "%' OR U.ADRESSE LIKE '%"
+				+ filtre + "%' OR V.NOM LIKE '%" + filtre + "%' OR U.EMAIL LIKE '%" + filtre + "%' OR U.TELEPHONE LIKE '%"
+				+ filtre + "%' OR U.ROLE LIKE '%"+filtre+"%'; ";
 		try {
 			uneConnexion.seConnecter();
 			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
@@ -92,7 +92,7 @@ public class Modele {
 				//instanciation d'un user 
 				User unUser = new User(); 
 				unUser.setId_user( lesResultats.getInt("ID_USER")); unUser.setNom(lesResultats.getString("NOM"));
-				unUser.setPrenom(lesResultats.getString("PRENOM"));unUser.setAdresse(lesResultats.getString("ADRESSE"));unUser.setVille(lesResultats.getString("ville"));unUser.setCp(lesResultats.getInt("CODE_POSTAL"));
+				unUser.setPrenom(lesResultats.getString("PRENOM"));unUser.setAdresse(lesResultats.getString("ADRESSE"));unUser.setVille(lesResultats.getString("VILLE"));unUser.setCp(lesResultats.getInt("CODE_POSTAL"));
 				unUser.setEmail(lesResultats.getString("EMAIL"));unUser.setTelephone(lesResultats.getString("TELEPHONE"));
 				unUser.setRole(lesResultats.getString("ROLE"));
 				//on ajoute le user dans l'ArrayList
@@ -109,24 +109,24 @@ public class Modele {
 	}
 
 	public static void updateUser(User unUser) {
-		String requete ="update User set id_ville ="+unUser.getId_ville() +", nom = '" + unUser.getNom() 
-		+ "', prenom ='"+unUser.getPrenom() + "', adresse='" + unUser.getAdresse()
-		+ "', code_postal='" + unUser.getCp()
-		+ "', email ='"+unUser.getEmail() + "', telephone='" + unUser.getTelephone()
-		+ "'  where  id_user = "+unUser.getId_user()+";";
+		String requete ="UPDATE USER SET ID_VILLE ="+unUser.getId_ville() +", NOM = '" + unUser.getNom() 
+		+ "', PRENOM ='"+unUser.getPrenom() + "', ADRESSE='" + unUser.getAdresse()
+		+ "', CODE_POSTAL='" + unUser.getCp()
+		+ "', EMAIL ='"+unUser.getEmail() + "', TELEPHONE='" + unUser.getTelephone()
+		+ "'  WHERE  ID_USER = "+unUser.getId_user()+";";
 		
 		executerRequete(requete);
 	}
 
 	public static void deleteUser (int idUser) {
-		String requete = "delete from User where id_user = "+idUser+";";
+		String requete = "DELETE FROM USER WHERE ID_USER = "+idUser+";";
 		executerRequete(requete);
 	}
 
     /********************* Gestion des villes **************************/
 
 	public static void insertVille(Ville uneVille) {
-		String requete = "insert into ville values (null, "+uneVille.getId_ville()+",'"+uneVille.getNom()+";";
+		String requete = "INSERT INTO VILLE VALUES (NULL, '"+uneVille.getNom()+"');";
 		
 		executerRequete (requete); 
 	}
@@ -134,7 +134,7 @@ public class Modele {
 
     public static ArrayList<Ville> selectAllVilles (){
         ArrayList<Ville> lesVilles = new ArrayList<Ville>();
-        String requete = "select * from VILLE;";
+        String requete = "SELECT * FROM VILLE;";
         try{
             uneConnexion.seConnecter();
             Statement unStat = uneConnexion.getMaConnexion().createStatement();
@@ -156,8 +156,8 @@ public class Modele {
 
 	public static ArrayList<Ville> selectLikeVilles (String filtre){
 		ArrayList<Ville> lesVilles = new ArrayList<Ville>(); 
-		String requete ="select * from ville where nom like '%"+filtre
-				+"%' or id_ville like '%" + filtre + "%' ;";
+		String requete ="SELECT * FROM VILLE WHERE NOM LIKE '%"+filtre
+				+"%' OR ID_VILLE LIKE '%" + filtre + "%' ;";
 		try {
 			uneConnexion.seConnecter();
 			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
@@ -179,13 +179,13 @@ public class Modele {
 	}
 
 	public static void updateVille(Ville uneVille) {
-		String requete ="update ville set nom = '" + uneVille.getNom()+"' where  id_ville = "+uneVille.getId_ville()+";";
+		String requete ="UPDATE VILLE SET NOM = '" + uneVille.getNom()+"' WHERE  ID_VILLE = "+uneVille.getId_ville()+";";
 		
 		executerRequete(requete);
 	}
 
 	public static void deleteVille (int idVille) {
-		String requete = "delete from ville where id_ville = "+idVille+";";
+		String requete = "DELETE FROM VILLE WHERE ID_VILLE = "+idVille+";";
 		executerRequete(requete);
 	}
 
@@ -193,7 +193,7 @@ public class Modele {
 	
 	//Faut creer une procédure d'insertion dans laquelle on appelle un procédure qui genere un mot de passe random pour l'insérer en tant que mdp puis retourner ce mdp pour l'utiliser dans un api de mail pour envoyer le mdp au propriétaire
 	public static void insertProprietaire(Proprietaire unProprietaire) {
-		String requete = "insert into proprietaire values (null, "+unProprietaire.getId_ville()+",'"+unProprietaire.getNom()
+		String requete = "INSERT INTO PROPRIETAIRE VALUES (NULL, "+unProprietaire.getId_ville()+",'"+unProprietaire.getNom()
 		+ "','" + unProprietaire.getPrenom() + "','" + unProprietaire.getAdresse() + "','" + unProprietaire.getCode_postal() + "','" + unProprietaire.getTel()
 		+ "','" + unProprietaire.getEmail()+"','1234','Proprietaire');";
 		
@@ -202,7 +202,7 @@ public class Modele {
 
 	public static ArrayList<Proprietaire> selectAllProprietaires (){
 		ArrayList<Proprietaire> lesProprietaires = new ArrayList<Proprietaire>(); 
-		String requete ="select p.*, v.nom ville from proprietaire p join ville v on p.id_ville=v.id_ville;";
+		String requete ="SELECT P.*, V.NOM AS VILLE FROM PROPRIETAIRE P JOIN VILLE V ON P.ID_VILLE=V.ID_VILLE;";
 		try {
 			uneConnexion.seConnecter();
 			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
@@ -211,7 +211,7 @@ public class Modele {
 				//instanciation d'un proprietaire 
 				Proprietaire unProprietaire = new Proprietaire(); 
 						unProprietaire.setId_proprietaire( lesResultats.getInt("ID_PROPRIETAIRE")); unProprietaire.setNom(lesResultats.getString("NOM"));
-						unProprietaire.setPrenom(lesResultats.getString("PRENOM"));unProprietaire.setAdresse(lesResultats.getString("ADRESSE"));unProprietaire.setVille(lesResultats.getString("ville"));unProprietaire.setCode_postal(lesResultats.getInt("CODE_POSTAL"));
+						unProprietaire.setPrenom(lesResultats.getString("PRENOM"));unProprietaire.setAdresse(lesResultats.getString("ADRESSE"));unProprietaire.setVille(lesResultats.getString("VILLE"));unProprietaire.setCode_postal(lesResultats.getInt("CODE_POSTAL"));
 						unProprietaire.setEmail(lesResultats.getString("EMAIL"));unProprietaire.setTel(lesResultats.getString("TELEPHONE"));
 				//on ajoute le proprietaire dans l'ArrayList
 				lesProprietaires.add(unProprietaire);
@@ -227,9 +227,9 @@ public class Modele {
 
 	public static ArrayList<Proprietaire> selectLikeProprietaires (String filtre){
 		ArrayList<Proprietaire> lesProprietaires = new ArrayList<Proprietaire>(); 
-		String requete ="select p.*, v.nom ville from proprietaire p join ville v on p.id_ville=v.id_ville where nom like '%"+filtre
-				+"%' or prenom like '%" + filtre + "%' or adresse like '%"
-				+ filtre + "%' or ville like %'" + filtre + "%' or email like '%" + filtre + "%' or tel like '%"
+		String requete ="SELECT P.*, V.NOM AS VILLE FROM PROPRIETAIRE P JOIN VILLE V ON P.ID_VILLE=V.ID_VILLE WHERE P.NOM LIKE '%"+filtre
+				+"%' OR P.PRENOM LIKE '%" + filtre + "%' OR P.ADRESSE LIKE '%"
+				+ filtre + "%' OR V.NOM LIKE '%" + filtre + "%' OR P.EMAIL LIKE '%" + filtre + "%' OR P.TELEPHONE LIKE '%"
 				+ filtre + "%' ; ";
 		try {
 			uneConnexion.seConnecter();
@@ -239,7 +239,7 @@ public class Modele {
 				//instanciation d'un proprietaire 
 				Proprietaire unProprietaire = new Proprietaire(); 
 				unProprietaire.setId_proprietaire( lesResultats.getInt("ID_PROPRIETAIRE")); unProprietaire.setNom(lesResultats.getString("NOM"));
-				unProprietaire.setPrenom(lesResultats.getString("PRENOM"));unProprietaire.setAdresse(lesResultats.getString("ADRESSE"));unProprietaire.setVille(lesResultats.getString("ville"));unProprietaire.setCode_postal(lesResultats.getInt("CODE_POSTAL"));
+				unProprietaire.setPrenom(lesResultats.getString("PRENOM"));unProprietaire.setAdresse(lesResultats.getString("ADRESSE"));unProprietaire.setVille(lesResultats.getString("VILLE"));unProprietaire.setCode_postal(lesResultats.getInt("CODE_POSTAL"));
 				unProprietaire.setEmail(lesResultats.getString("EMAIL"));unProprietaire.setTel(lesResultats.getString("TELEPHONE"));
 				//on ajoute le proprietaire dans l'ArrayList
 				lesProprietaires.add(unProprietaire);
@@ -254,17 +254,17 @@ public class Modele {
 	}
 
 	public static void updateProprietaire(Proprietaire unProprietaire) {
-		String requete ="update proprietaire set id_ville ="+unProprietaire.getId_ville() +", nom = '" + unProprietaire.getNom() 
-		+ "', prenom ='"+unProprietaire.getPrenom() + "', adresse='" + unProprietaire.getAdresse()
-		+ "', code_postal='" + unProprietaire.getCode_postal()
-		+ "', email ='"+unProprietaire.getEmail() + "', telephone='" + unProprietaire.getTel()
-		+ "'  where  id_proprietaire = "+unProprietaire.getId_proprietaire()+";";
+		String requete ="UPDATE PROPRIETAIRE SET ID_VILLE ="+unProprietaire.getId_ville() +", NOM = '" + unProprietaire.getNom() 
+		+ "', PRENOM ='"+unProprietaire.getPrenom() + "', ADRESSE='" + unProprietaire.getAdresse()
+		+ "', CODE_POSTAL='" + unProprietaire.getCode_postal()
+		+ "', EMAIL ='"+unProprietaire.getEmail() + "', TELEPHONE='" + unProprietaire.getTel()
+		+ "'  WHERE  ID_PROPRIETAIRE = "+unProprietaire.getId_proprietaire()+";";
 		
 		executerRequete(requete);
 	}
 
 	public static void deleteProprietaire (int idProprietaire) {
-		String requete = "delete from proprietaire where id_proprietaire = "+idProprietaire+";";
+		String requete = "DELETE FROM PROPRIETAIRE WHERE ID_PROPRIETAIRE = "+idProprietaire+";";
 		executerRequete(requete);
 	}
 
@@ -272,16 +272,16 @@ public class Modele {
 	 /************************ GESTION DES CONTRATS **********************/
 	
 	public static void insertContrat(Contrat unContrat) {
-		String requete = "insert into contrat_de_mandat_locatif values (null, "+unContrat.getIdProprietaire()+",'"+unContrat.getIdBatiment()
+		String requete = "INSERT INTO CONTRAT_DE_MANDAT_LOCATIF VALUES (NULL, "+unContrat.getIdProprietaire()+",'"+unContrat.getIdBatiment()
 		+ "'," + unContrat.getNumeroAppartement() + ",'" + unContrat.getRIB() + "'," + unContrat.getTarifHaute() + "," + unContrat.getTarifMoyen()
-		+ "," + unContrat.getTarifBasse()+",null,"+unContrat.getAnneeLocation()+",'"+unContrat.getEtat()+"');";
+		+ "," + unContrat.getTarifBasse()+",NULL,"+unContrat.getAnneeLocation()+",'"+unContrat.getEtat()+"');";
 		
 		executerRequete (requete); 
 	}
 
 	public static ArrayList<Contrat> selectAllContrats (){
 		ArrayList<Contrat> lesContrats = new ArrayList<Contrat>(); 
-		String requete ="select * from contrat_de_mandat_locatif;";
+		String requete ="SELECT * FROM CONTRAT_DE_MANDAT_LOCATIF;";
 		try {
 			uneConnexion.seConnecter();
 			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
@@ -297,7 +297,7 @@ public class Modele {
 						unContrat.setTarifHaute(lesResultats.getFloat("TARIF_HAUTE"));
 						unContrat.setTarifMoyen(lesResultats.getFloat("TARIF_MOYEN"));
 						unContrat.setTarifBasse(lesResultats.getFloat("TARIF_BASSE"));
-						unContrat.setAnneeLocation(lesResultats.getInt("annee_de_location"));
+						unContrat.setAnneeLocation(lesResultats.getInt("ANNEE_DE_LOCATION"));
 						unContrat.setEtat(lesResultats.getString("ETAT"));
 				//on ajoute le contrat dans l'ArrayList
 				lesContrats.add(unContrat);
@@ -313,10 +313,10 @@ public class Modele {
 
 	public static ArrayList<Contrat> selectLikeContrats (String filtre){
 		ArrayList<Contrat> lesContrats = new ArrayList<Contrat>(); 
-		String requete ="select * from contrat_de_mandat_locatif where ID_CONTRAT like '%"+filtre
-				+"%' or ID_PROPRIETAIRE like '%" + filtre + "%' or ID_BATIMENT like '%"
-				+ filtre + "%' or NUMERO_APPARTEMENT like '%" + filtre + "%' or RIB like '%" + filtre + "%' or ETAT like '%"
-				+ filtre + "%' or ANNEE_DE_LOCATION like '%"+filtre+"%'; ";
+		String requete ="SELECT * FROM CONTRAT_DE_MANDAT_LOCATIF WHERE ID_CONTRAT LIKE '%"+filtre
+				+"%' OR ID_PROPRIETAIRE LIKE '%" + filtre + "%' OR ID_BATIMENT LIKE '%"
+				+ filtre + "%' OR NUMERO_APPARTEMENT LIKE '%" + filtre + "%' OR RIB LIKE '%" + filtre + "%' OR ETAT LIKE '%"
+				+ filtre + "%' OR ANNEE_DE_LOCATION LIKE '%"+filtre+"%'; ";
 		try {
 			uneConnexion.seConnecter();
 			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
@@ -332,7 +332,7 @@ public class Modele {
 						unContrat.setTarifHaute(lesResultats.getFloat("TARIF_HAUTE"));
 						unContrat.setTarifMoyen(lesResultats.getFloat("TARIF_MOYEN"));
 						unContrat.setTarifBasse(lesResultats.getFloat("TARIF_BASSE"));
-						unContrat.setAnneeLocation(lesResultats.getInt("annee_de_location"));
+						unContrat.setAnneeLocation(lesResultats.getInt("ANNEE_DE_LOCATION"));
 						unContrat.setEtat(lesResultats.getString("ETAT"));
 				//on ajoute le contrat dans l'ArrayList
 				lesContrats.add(unContrat);
@@ -347,20 +347,20 @@ public class Modele {
 	}
 
 	public static void updateContrat(Contrat unContrat) {
-		String requete ="update contrat_de_mandat_locatif set ETAT ='"+unContrat.getEtat() +"' where ID_CONTRAT = "+unContrat.getIdContrat()+";";
+		String requete ="UPDATE CONTRAT_DE_MANDAT_LOCATIF SET ETAT ='"+unContrat.getEtat() +"' WHERE ID_CONTRAT = "+unContrat.getIdContrat()+";";
 		
 		executerRequete(requete);
 	}
 
 	public static void deleteContrat (int idContrat) {
-		String requete = "delete from contrat_de_mandat_locatif where id_contrat = "+idContrat+";";
+		String requete = "DELETE FROM CONTRAT_DE_MANDAT_LOCATIF WHERE ID_CONTRAT = "+idContrat+";";
 		executerRequete(requete);
 	}
 
 	// remplir le combo box
 	public static ArrayList<Batiment> selectAllBatiments(){
         ArrayList<Batiment> lesBatiments = new ArrayList<Batiment>();
-        String requete = "select * from Batiment;";
+        String requete = "SELECT * FROM BATIMENT;";
         try{
             uneConnexion.seConnecter();
             Statement unStat = uneConnexion.getMaConnexion().createStatement();
@@ -382,7 +382,7 @@ public class Modele {
 	// remplir le combo box
 	public static ArrayList<Appartement> selectAllAppartements(){
         ArrayList<Appartement> lesAppartements = new ArrayList<Appartement>();
-        String requete = "select * from Appartement;";
+        String requete = "SELECT * FROM APPARTEMENT;";
         try{
             uneConnexion.seConnecter();
             Statement unStat = uneConnexion.getMaConnexion().createStatement();
@@ -420,13 +420,13 @@ public class Modele {
 
     public static int count (String table) {
 		int nb = 0;
-		String requete = "select count(*) as nb from "+table+";";
+		String requete = "SELECT COUNT(*) AS NB FROM "+table+";";
 		try {
 			uneConnexion.seConnecter();
 			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
 			ResultSet unResultat = unStat.executeQuery(requete); 
 			if (unResultat.next()) {
-				nb = unResultat.getInt("nb");
+				nb = unResultat.getInt("NB");
 			}
 			unStat.close();
 			uneConnexion.seDeConnecter();
@@ -440,13 +440,13 @@ public class Modele {
 
 	public static String getSaliere() {
 		String grainSel = null;
-		String requete = "select Grain_de_sel from saliere;";
+		String requete = "SELECT GRAIN_DE_SEL FROM SALIERE;";
 		try {
 			uneConnexion.seConnecter();
 			Statement unStat = uneConnexion.getMaConnexion().createStatement(); 
 			ResultSet unResultat = unStat.executeQuery(requete); 
 			if (unResultat.next()) {
-				grainSel = unResultat.getString("Grain_de_sel");
+				grainSel = unResultat.getString("GRAIN_DE_SEL");
 			}
 			unStat.close();
 			uneConnexion.seDeConnecter();
